@@ -50,5 +50,80 @@ namespace A
             else
                 return null;
         }
+
+        public static Vector3 RandomPointInBounds(this Bounds bounds)
+        {
+            return new Vector3(
+                Random.Range(bounds.min.x, bounds.max.x),
+                Random.Range(bounds.min.y, bounds.max.y),
+                Random.Range(bounds.min.z, bounds.max.z)
+            );
+        }
+
+        public static GameObject[] GetAllChildren(this Transform transform)
+        {
+            var GOs = new GameObject[transform.childCount];
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                GOs[i] = transform.GetChild(i).gameObject;
+            }
+            return GOs;
+        }
+
+        public static Vector3[] CreateUniformPointsAroundPivot(int num, Vector3 pivot, float radius, Vector3 offset = new Vector3())
+        {
+            var points = new Vector3[num];
+            for (int i = 0; i < num; i++)
+            {
+                var radians = 2 * Mathf.PI / num * i;
+
+                var vertical = Mathf.Sin(radians);
+                var horizontal = Mathf.Cos(radians);
+
+                var spawnDir = new Vector3(horizontal, 0, vertical);
+
+                var spawnPos = pivot + spawnDir * radius;
+
+                spawnPos += offset;
+
+                points[i] = spawnPos;
+            }
+            return points;
+        }
+
+        public static Vector3[] CreateRandomPointsAroundPivot(int num, Vector3 pivot, float radius, Vector3 offset = new Vector3())
+        {
+            var points = new Vector3[num];
+            for (int i = 0; i < num; i++)
+            {
+                var radians = 2 * Mathf.PI / Random.Range(0, num);
+
+                var vertical = Mathf.Sin(radians);
+                var horizontal = Mathf.Cos(radians);
+
+                var spawnDir = new Vector3(horizontal, 0, vertical);
+
+                var spawnPos = pivot + spawnDir * radius;
+
+                spawnPos += offset;
+
+                points[i] = spawnPos;
+            }
+            return points;
+        }
+
+        public static Vector3 CreateRandomPointAroundPivot(Vector3 pivot, float radius)
+        {
+            var radians = 2 * Mathf.PI / Random.Range(0.1f, 360f);
+
+            var vertical = Mathf.Sin(radians);
+            var horizontal = Mathf.Cos(radians);
+
+            var spawnDir = new Vector3(horizontal, 0, vertical);
+
+            var spawnPos = pivot + spawnDir * radius;
+
+            return spawnPos;
+        }
     }
 }

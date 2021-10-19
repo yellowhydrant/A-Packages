@@ -1,0 +1,11 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="DialogueGraphEditorStyle.uss" />
+    <uie:Toolbar>
+        <uie:ObjectField type="A.Dialogue.ADialogueGraph, A.Dialogue" name="asset-field" allow-scene-objects="false" />
+        <uie:ToolbarSpacer />
+        <ui:TextField picking-mode="Ignore" value="Assets/ScriptableObjects/Dialogues/" text="Assets/ScriptableObjects/Dialogues/" multiline="false" password="false" name="asset-path-folder" readonly="true" />
+        <ui:TextField picking-mode="Ignore" value="Dialogue01" text="Dialogue01" multiline="false" password="false" name="asset-path-name" readonly="false" />
+        <ui:Button text="Create &amp; Open DialogueGraph" display-tooltip-when-elided="true" name="create-new-graph" />
+    </uie:Toolbar>
+    <A.Dialogue.Editor.DialogueGraphView focusable="true" style="flex-grow: 1;" />
+</ui:UXML>
