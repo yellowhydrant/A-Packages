@@ -7,7 +7,10 @@ using UnityEngine.UI;
 
 namespace A.Minimap
 {
-    public class AMiniMap : Singleton<AMiniMap>
+    //TODO: Add fullscreen mode where you can place a limited amount of pins manually
+    //TODO: Rename to AMap
+    [AddComponentMenu("A/Singletons/Mini Map")]
+    public class AMiniMap : ASingleton<AMiniMap>
     {
         public Transform target;
 
@@ -136,7 +139,7 @@ namespace A.Minimap
             return pins.First((pin) => pin.id == id);
         }
 
-        public void SetMapSprite(Texture tex)
+        public void SetMapTexture(Texture tex)
         {
             mapRawImage.texture = tex;
             if (tex != null)

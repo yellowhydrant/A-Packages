@@ -1,36 +1,39 @@
 using UnityEngine;
 
-public abstract class ADropTable<T> : ScriptableObject where T : ScriptableObject
+namespace A
 {
-    public virtual Drop<T>[] Drops { get; }
-
-    [System.Serializable]
-    public abstract class Drop<D>
+    public abstract class ADropTable<T> : ScriptableObject where T : ScriptableObject
     {
-        public D drop;
-        public float dropChance;
-    }
+        public virtual Drop<T>[] Drops { get; }
 
-    public T MakeDrop()
-    {
-        var prob = 0f;
-        var currentProb = Random.Range(1f, 100f);
-        for (int i = 0; i < Drops.Length; i++)
+        [System.Serializable]
+        public abstract class Drop<D>
         {
-            prob += Drops[i].dropChance;
-            if (currentProb <= prob)
-                return Drops[i].drop;
+            public D drop;
+            public float dropChance;
         }
-        return default;
-    }
 
-    public virtual T[] MakeDrops(int amount)
-    {
-        var drops = new T[amount];
-        for (int i = 0; i < amount; i++)
+        public T MakeDrop()
         {
-            drops[i] = MakeDrop();
+            var prob = 0f;
+            var currentProb = Random.Range(1f, 100f);
+            for (int i = 0; i < Drops.Length; i++)
+            {
+                prob += Drops[i].dropChance;
+                if (currentProb <= prob)
+                    return Drops[i].drop;
+            }
+            return default;
         }
-        return drops;
+
+        public virtual T[] MakeDrops(int amount)
+        {
+            var drops = new T[amount];
+            for (int i = 0; i < amount; i++)
+            {
+                drops[i] = MakeDrop();
+            }
+            return drops;
+        }
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace A.Dialogue
 {
-    [CreateAssetMenu(menuName = "DialogueGraph", fileName = "DialogueGraph")]
+    [CreateAssetMenu(menuName = "A/Dialogue/DialogueGraph", fileName = "New DialogueGraph")]
     public partial class ADialogueGraph : ScriptableObject
     {
         public List<NodeData> nodeData = new List<NodeData>();

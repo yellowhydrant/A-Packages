@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace A
 {
-    public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
+    public abstract class ASingleton<T> : MonoBehaviour where T : MonoBehaviour
     {
         private static T _instance;
         private static readonly object Lock = new object();

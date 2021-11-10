@@ -10,6 +10,11 @@ namespace A.Dialogue.Editor
     {
         bool foldoutState;
 
+        private void OnEnable()
+        {
+            
+        }
+
         public override void OnInspectorGUI()
         {
             serializedObject.Update();

@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace A
 {
+    [AddComponentMenu("A/Standard/Object Spawner")]
     public class AObjectSpawner : MonoBehaviour
     {
         [SerializeField] DistributionType distribution;

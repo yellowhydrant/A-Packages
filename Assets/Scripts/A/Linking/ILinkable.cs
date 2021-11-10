@@ -6,7 +6,7 @@ namespace A.Linking
     public interface ILinkable
     {
         public Link[] links { get; set; }
-        public UnityEngine.Vector2 groupPosition { get; set; }
+        public Vector2 groupPosition { get; set; }
 
         [System.Serializable]
         public class Link

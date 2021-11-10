@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 namespace A.UI
 {
+    [AddComponentMenu("A/UI/Button")]
     public class AButton : Button
     {
         public TMP_Text text;

@@ -23,7 +23,7 @@ namespace A.Minimap
             cam.targetTexture = mapTex;
             cam.orthographicSize = mapArea.size.x / 2;
 
-            AMiniMap.instance.SetMapSprite(mapTex);
+            AMiniMap.instance.SetMapTexture(mapTex);
         }
     }
 }

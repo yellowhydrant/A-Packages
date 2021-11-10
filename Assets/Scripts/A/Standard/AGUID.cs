@@ -2,19 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "GUID")]
-public class AGUID : ScriptableObject
+namespace A
 {
-    [HideInInspector] public string GUID;
-
-    private void Awake()
+    [CreateAssetMenu(menuName = "A/Standard/GUID")]
+    public class AGUID : ScriptableObject
     {
-        if (GUID == null)
-            GUID = System.Guid.NewGuid().ToString();
-    }
+        public string GUID;
 
-    private void OnValidate()
-    {
-        Awake();
+        public static implicit operator string(AGUID aguid) => aguid.GUID;
+
+        private void Awake()
+        {
+            if (GUID == null)
+                GUID = System.Guid.NewGuid().ToString();
+        }
+
+        private void OnValidate()
+        {
+            Awake();
+        }
     }
 }
