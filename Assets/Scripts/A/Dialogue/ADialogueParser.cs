@@ -10,11 +10,13 @@ using UnityEngine.UI;
 
 namespace A.Dialogue
 {
+    [AddComponentMenu(AConstants.ComponentMenuRoot + "/" + ADialogueConstants.ComponentMenuRoot + "/" + "Dialogue Parser")]
     [RequireComponent(typeof(PlayerInput))]
     public class ADialogueParser : MonoBehaviour
     {
         [SerializeField] TMP_Text nameText;
         [SerializeField] TMP_Text dialogueText;
+        [SerializeField] Image spriteImage;
 
         [SerializeField] AButton choiceButtonPrefab;
         [SerializeField] Transform choiceButtonContainer;
@@ -23,12 +25,15 @@ namespace A.Dialogue
         [SerializeField] GameObject backgroundBlur;
 
         ADialogueGraph graph;
+        //To be changed
+        //TODO: Add timeline variable to nodes and play the timeline if it exists
+        //TODO: While timeline is plating disable parser
+        //TODO: Change on proceed and on end event to also take in graph
         Action<string> onGraphEnd;
         Action<string> onProceed;
 
         bool canContinue;
 
-        public const string Continue = "Continue";
         public const string End = "End Dialogue";
 
         private void OnEnable()
@@ -74,7 +79,7 @@ namespace A.Dialogue
             }
         }
 
-        void InvokeNodeEvent(NodeData nodeData, string nextNodeGUID)
+        void InvokeNodeEvent(ANodeData nodeData, string nextNodeGUID)
         {
             // Change this to work with behaviour trees
             onProceed.Invoke(nodeData.GUID);
@@ -84,7 +89,13 @@ namespace A.Dialogue
         private void ProceedToNextNode(string dialogueNodeGUID)
         {
             var node = graph.nodeData.Find(x => x.GUID == dialogueNodeGUID);
-            nameText.text = node.speakerName;
+
+            //Speaker setup
+            if(nameText != null)
+                nameText.text = node.speaker.name;
+            if (spriteImage != null)
+                spriteImage.sprite = node.speaker.sprite;
+            
 
             var choices = graph.nodeLinks.Where(x => x.baseGUID == dialogueNodeGUID);
 
@@ -100,7 +111,7 @@ namespace A.Dialogue
             var choiceArray = choices.ToArray();
             if (choiceArray.Length == 1)
             {
-                if (choiceArray[0].portName.ToLower() == Continue.ToLower())
+                if (choiceArray[0].portName.ToLower() == ADialogueGraph.Continue.ToLower())
                 {
                     continueButton.onClick.RemoveAllListeners();
                     continueButton.onClick.AddListener(() =>
@@ -119,10 +130,10 @@ namespace A.Dialogue
                 continueButton.onClick.AddListener(() =>
                 {
                     EndDialogue(dialogueNodeGUID);
-                    continueButton.text.text = Continue;
+                    continueButton.mainText.text = ADialogueGraph.Continue;
                 });
                 ActivateContinueButton(true);
-                continueButton.text.text = End;
+                continueButton.mainText.text = End;
                 return;
             }
 
@@ -135,7 +146,7 @@ namespace A.Dialogue
             {
                 var button = Instantiate(choiceButtonPrefab, choiceButtonContainer);
                 button.targetGraphic.rectTransform.anchoredPosition = button.targetGraphic.rectTransform.anchoredPosition + curOffset;
-                button.text.text = ProcessProperties(choice.portName);
+                button.mainText.text = ProcessProperties(choice.portName);
                 button.onClick.AddListener(() => InvokeNodeEvent(node, choice.targetGUID));
                 curOffset += offset;
             }
@@ -177,7 +188,7 @@ namespace A.Dialogue
         protected void ActivateContinueButton(bool isActive)
         {
             continueButton.interactable = isActive;
-            continueButton.text.gameObject.SetActive(isActive);
+            continueButton.mainText.gameObject.SetActive(isActive);
             canContinue = isActive;
         }
     }

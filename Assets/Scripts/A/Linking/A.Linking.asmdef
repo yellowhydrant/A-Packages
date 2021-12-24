@@ -1,3 +1,16 @@
 {
-	"name": "A.Linking"
+    "name": "A.Linking",
+    "rootNamespace": "",
+    "references": [
+        "GUID:a6fc4975639fa4ba4b3296ba157024c8"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

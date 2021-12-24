@@ -4,12 +4,15 @@ using UnityEngine;
 
 namespace A.Dialogue
 {
-    [CreateAssetMenu(menuName = "A/Dialogue/DialogueGraph", fileName = "New DialogueGraph")]
+    [CreateAssetMenu(menuName = AConstants.AssetMenuRoot + "/" + ADialogueConstants.AssetMenuRoot + "/" + "Dialogue Graph", fileName = "New DialogueGraph")]
     public partial class ADialogueGraph : ScriptableObject
     {
-        public List<NodeData> nodeData = new List<NodeData>();
+        public List<ANodeData> nodeData = new List<ANodeData>();
         public List<LinkData> nodeLinks = new List<LinkData>();
-        public List<ExposedProperty> exposedProperties = new List<ExposedProperty>();
+        public List<AExposedProperty> exposedProperties = new List<AExposedProperty>();
+        public ADialogueSpeakerRegister register;
+
+        public const string Continue = "Continue";
 
         [System.Serializable]
         public class LinkData

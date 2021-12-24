@@ -29,7 +29,7 @@ namespace A.UI
         public void AppendAction(string text, UnityAction action)
         {
             var buttonObj = Instantiate(buttonPrefab, transform).GetComponentInChildren<AButton>();
-            buttonObj.text.text = text;
+            buttonObj.mainText.text = text;
             buttonObj.onClick.AddListener(action);
         }
 

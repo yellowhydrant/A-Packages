@@ -1,191 +1,198 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using A;
 using UnityEngine;
 
 namespace A.Inventory
 {
-    //TODO: Make UI to represent the inventory visually and add manual control
-    [AddComponentMenu("A/Singletons/Inventory")]
-    public class AInventory : ASingleton<AInventory>
+    [CreateAssetMenu(menuName = "A/Inventory/Inventory")]
+    public class AInventory : ScriptableObject
     {
-        public Vector2Int size;
-        public int maxSlotAmount => size.x * size.y;
+        public Vector2Int dimensions = Vector2Int.one;
+        public int Size => dimensions.x * dimensions.y;
+        public bool IsMultiDimensional => dimensions.y > 1;
+        public bool HasItemsInQueue => reservedItems.Count > 0;
 
-        public System.Action<Vector2Int, Vector2Int> onItemsMoved;
-        public System.Action<ItemSlot> onItemChanged;
+        public AInventoryItem[] itemsToAddOnInit;
+        bool hasInitialized;
 
-        ObservableCollection<ItemSlot> itemSlots = new ObservableCollection<ItemSlot>();
+        AInventoryItem[] items;
+        Queue<AInventoryItem> reservedItems = new Queue<AInventoryItem>();
 
-        public class ItemSlot
+        bool isInitialized;
+
+        public enum SortingCriteria
         {
-            public Vector2Int position;
-            public AItem storedItem;
-            public int storedAmount;
-
-            public bool isFull => storedAmount == storedItem.maxStoredAmount;
-            public int capacity => storedItem.maxStoredAmount - storedAmount;
-            public int maxCapacity => storedItem.maxStoredAmount;
-
-            public ItemSlot(AItem item, int amount = 1)
-            {
-                storedItem = item;
-                storedAmount = amount;
-            }
+            None
         }
 
-        //Implement hidden item slots
+        void Awake()
+        {
+            Init();
+        }
+
+        public void Init()
+        {
+            //Guard clause
+            if (hasInitialized) return;
+            hasInitialized = true;
+
+            items = new AInventoryItem[Size];
+            for (int i = 0; i < itemsToAddOnInit.Length; i++)
+            {
+                if(itemsToAddOnInit != null)
+                    reservedItems.Enqueue(itemsToAddOnInit[i]);
+            }
+            TryDequeueReservedItems();
+        }
 
         public bool AddItem(AItem item, int amount = 1)
         {
-            var availableSlots = itemSlots.Where((slot) => slot.storedItem == item && !slot.isFull).ToList();
-            var neededEmptySlots = Mathf.CeilToInt(amount / (float)item.maxStoredAmount);
-
-            if (itemSlots.Count == maxSlotAmount
-                && !availableSlots.Any()
-                && maxSlotAmount - itemSlots.Count >= neededEmptySlots)
-                return false;
-
-            if (availableSlots != null)
+            var leftoverAmount = ChangeItemAmount(item, amount, true);
+            if(leftoverAmount > 0)
             {
-                availableSlots.OrderByDescending((slot) => slot.storedAmount);
-                foreach (var slot in availableSlots)
+                for (int i = 0; i < leftoverAmount / item.maxStoredAmount; i++)
                 {
-                    var amountToAdd = slot.capacity > amount ? amount : slot.capacity;
-                    amount -= amountToAdd;
-                    slot.storedAmount += amountToAdd;
-                    if (amount == 0)
-                        break;
+                    var amountToReserve = Mathf.Min(item.maxStoredAmount);
+                    reservedItems.Enqueue(new AInventoryItem(item) { currentAmount = amountToReserve });
                 }
+                if (leftoverAmount % item.maxStoredAmount != 0)
+                    reservedItems.Enqueue(new AInventoryItem(item) { currentAmount = leftoverAmount % item.maxStoredAmount });
+
+                return false;
             }
             else
             {
-                for (int i = 1; i <= neededEmptySlots; i++)
+                return true;
+            }
+        }
+
+        public bool RemoveItem(AItem item, int amount = 1)
+        {
+            var result = ChangeItemAmount(item, amount, false) == 0;
+            TryDequeueReservedItems();
+            return result;
+        }
+
+        void TryDequeueReservedItems()
+        {
+            for (int i = 0; i < items.Length; i++)
+            {
+                if (items[i] != null && items[i].IsEmpty)
                 {
-                    if (i == neededEmptySlots)
-                        itemSlots.Add(new ItemSlot(item, amount % item.maxStoredAmount));
+                    if (reservedItems.Count > 0)
+                        items[i] = reservedItems.Dequeue();
                     else
-                        itemSlots.Add(new ItemSlot(item, item.maxStoredAmount));
+                        items[i] = null;
+                }
+            }
+        }
+
+        int ChangeItemAmount(AItem item, int amount, bool polarity)
+        {
+            for (int i = items.Length - 1; i >= 0; i--)
+            {
+                if (items[i] != null && ((polarity && !items[i].IsFull) || (!polarity)))
+                {
+                    if (ChangeAmount(i))
+                        return 0;
                 }
             }
 
-            item.onAdd?.Invoke(); // Change later maybe
+            if (!polarity) return amount;
 
-            item.RemoveItemFromInventory = (itemToRemove) => RemoveItem(itemToRemove);
-
-            return true;
-        }
-
-        public bool AddItemByGuid(string guid, int amount = 1)
-        {
-            return AddItem(GetItemByGuid(guid), amount);
-        }
-
-        public bool RemoveItem(AItem item, int amount = 1, bool clampAmount = true)
-        {
-            var slotsWithItem = itemSlots.Where((slot) => slot.storedItem == item);
-            var totalStoredAmount = slotsWithItem.Sum((slot) => slot.storedAmount);
-
-            if(clampAmount)
-                amount = Mathf.Min(totalStoredAmount, amount);
-
-            if (!slotsWithItem.Any() && totalStoredAmount < amount)
-                return false;
-
-            slotsWithItem.OrderBy((slot) => slot.storedAmount);
-            foreach (var slot in slotsWithItem)
+            for (int i = 0; i < items.Length; i++)
             {
-                var amountToRemove = slot.storedAmount > amount ? amount : slot.storedAmount;
-                amount -= amountToRemove;
-                slot.storedAmount -= amountToRemove;
-                if (amount == 0)
+                if (items[i] == null)
+                {
+                    items[i] = new AInventoryItem(item);
+                    items[i].position = GetPositionFromIndex(i);
+                    if (ChangeAmount(i))
+                        return 0;
+                }
+            }
+
+            bool ChangeAmount(int index)
+            {
+                var amountToChange = Mathf.Min(amount, polarity ? items[index].Capacity : items[index].currentAmount);
+                items[index].currentAmount += amountToChange * (polarity ? 1 : -1);
+                amount -= amountToChange;
+                return amount == 0;
+            }
+
+            return amount;
+        }
+
+        public int GetTotalAmount(AItem item)
+        {
+            var amount = 0;
+            for (int i = 0; i < items.Length; i++)
+            {
+                if (items[i] != null && items[i].item == item)
+                    amount += items[i].currentAmount;
+            }
+            return amount;
+        }
+
+        public bool HasItem(AItem item) => GetTotalAmount(item) > 0;
+
+        public bool HasItem(AItem item, out int amount)
+        {
+            amount = GetTotalAmount(item);
+            return amount > 0;
+        }
+
+        public bool IsSlotEmpty(int index)
+        {
+            var slot = items[index];
+            if(slot == null || slot.item == null || slot.IsEmpty)
+            {
+                items[index] = null;
+                return true;
+            }
+            return false;
+        }
+
+        public void SortInventory(SortingCriteria type)
+        {
+            switch (type)
+            {
+                case SortingCriteria.None:
+                    System.Array.Sort(items);
+                    break;
+                default:
                     break;
             }
-
-            item.onRemove?.Invoke(); //Change later maybe
-
-            itemSlots = itemSlots.Where((slot) => slot.storedAmount > 0) as ObservableCollection<ItemSlot>;
-
-            return true;
         }
 
-        public bool RemoveItemByGuid(string guid, int amount = 1, bool clampAmount = true)
-        {
-            return RemoveItem(GetItemByGuid(guid), amount, clampAmount);
-        }
+        public AInventoryItem GetItem(Vector2Int position) => items[GetIndexFromPosition(position)];
 
-        public AItem GetItemByGuid(string guid)
-        {
-            return itemSlots.FirstOrDefault((slot) => slot.storedItem.guid == guid)?.storedItem;
-        }
+        public AInventoryItem GetItem(int index) => items[index];
 
-        public bool HasItem(AItem item)
+        public HashSet<AItem> GetUniqueItems()
         {
-            return itemSlots.Any((slot) => slot.storedItem == item);
-        }
-
-        public bool HasItemByGuid(string guid)
-        {
-            return HasItem(GetItemByGuid(guid));
-        }
-
-        public void SortInventory()
-        {
-
-        }
-
-        public ItemSlot GetSlot(Vector2Int position)
-        {
-            return itemSlots.FirstOrDefault((slot) => slot.position == position);
-        }
-
-        public ItemSlot GetSlot(int index)
-        {
-            return index > 0 && index < itemSlots.Count ? itemSlots[index] : null;
-        }
-
-        public void MoveSlot(ItemSlot from, ItemSlot to, Vector2Int toPos)
-        {
-            if (from == to)
+            var hashtable = new HashSet<AItem>();
+            for (int i = 0; i < items.Length; i++)
             {
-                return;
+                if(items != null)
+                    hashtable.Add(items[i].item);
             }
-            else if (to == null)
-            {
-                onItemsMoved?.Invoke(from.position, toPos);
-                from.position = toPos;
-            }
-            else
-            {
-                onItemsMoved?.Invoke(from.position, to.position);
-                onItemsMoved?.Invoke(to.position, from.position);
-
-                to.position = from.position;
-                from.position = toPos;
-            }
+            return hashtable;
         }
 
-        public bool MergeSlots(ItemSlot from, ItemSlot to)
+        public AInventoryItem[] GetAllItemAmounts()
         {
-            if (to.isFull || from == to || from.storedItem != to.storedItem) return false;
+            var hash = GetUniqueItems().ToArray();
+            var arr = new AInventoryItem[hash.Length];
+            for (int i = 0; i < arr.Length; i++)
             {
-                var movedAmount = Mathf.Min(to.capacity, from.storedAmount);
-                to.storedAmount += movedAmount;
-                from.storedAmount -= movedAmount;
-                if (from.storedAmount == 0)
-                    itemSlots.Remove(from);
-                else
-                    onItemChanged?.Invoke(from);
-                onItemChanged?.Invoke(to);
+                arr[i] = new AInventoryItem(hash[i], GetTotalAmount(hash[i]));
             }
-            return true;
+            return arr;
         }
 
-        public void RegisterCallback(System.Collections.Specialized.NotifyCollectionChangedEventHandler del)
-        {
-            itemSlots.CollectionChanged += del;
-        }
+        public int GetIndexFromPosition(Vector2Int pos) => pos.x + dimensions.x * pos.y;
+        public Vector2Int GetPositionFromIndex(int index) => new Vector2Int(index % dimensions.x, index / dimensions.x);
     }
 }
+

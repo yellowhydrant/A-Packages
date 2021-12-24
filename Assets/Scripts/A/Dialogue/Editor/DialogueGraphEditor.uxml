@@ -7,5 +7,5 @@
         <ui:TextField picking-mode="Ignore" value="Dialogue01" text="Dialogue01" multiline="false" password="false" name="asset-path-name" readonly="false" />
         <ui:Button text="Create &amp; Open DialogueGraph" display-tooltip-when-elided="true" name="create-new-graph" />
     </uie:Toolbar>
-    <A.Dialogue.Editor.DialogueGraphView focusable="true" style="flex-grow: 1;" />
+    <A.Dialogue.Editor.ADialogueGraphView focusable="true" style="flex-grow: 1;" />
 </ui:UXML>
