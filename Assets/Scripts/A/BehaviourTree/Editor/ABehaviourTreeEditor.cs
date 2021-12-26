@@ -89,29 +89,27 @@ namespace A.BehaviourTree
             assetField.objectType = typeof(ABehaviourTree);
             assetField.RegisterValueChangedCallback((ctx) => { SelectTree(ctx.newValue as ABehaviourTree); });
             toolBar.Add(assetField);
+
             toolBar.Add(new ToolbarSpacer());
+
             var createNewButton = new Button();
             createNewButton.text = "New Behaviour Tree";
             createNewButton.clicked += () => overlay.Show();
             toolBar.Add(createNewButton);
-            //var behaviourTrees = LoadAssets<ABehaviourTree>();
-            //behaviourTrees.ForEach(tree => {
-            //    toolbarMenu.menu.AppendAction($"{tree.name}", (a) => {
-            //        Selection.activeObject = tree;
-            //    });
-            //});
-            //toolbarMenu.menu.AppendSeparator();
-            //toolbarMenu.menu.AppendAction("New Tree...", (a) => CreateNewTree("NewBehaviourTree"));
+            
 
             // New Tree Dialog
             overlay = new ACreateAssetOverlay("Create New Tree");
-            root.Add(overlay);
             overlay.createButton.clicked += () => CreateNewTree(overlay.nameField.value);
+            overlay.nameField.value = "New Behaviour Tree";
+            root.Add(overlay);
+
             AAssetModificationProcessorCallbacks.OnWillDelete += (arg0, arg1) =>
             {
-                if (AssetDatabase.LoadAssetAtPath<ABehaviourTree>(arg0) != null)
+                if (AssetDatabase.LoadAssetAtPath<ABehaviourTree>(arg0) == tree)
                     SelectTree(null);
-                return AssetDeleteResult.DidNotDelete; };
+                return AssetDeleteResult.DidNotDelete;
+            };
 
             if (tree == null) {
                 OnSelectionChange();

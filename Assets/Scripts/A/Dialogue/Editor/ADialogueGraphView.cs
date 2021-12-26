@@ -147,9 +147,6 @@ namespace A.Dialogue.Editor
             //Create nodes from data
             InstantiateEntryPoint();
             LoadNodes();
-            EditorApplication.delayCall += () => {
-                FrameAll();
-            };
             graphViewChanged += OnGraphViewChanged;
             isClear = false;
         }

@@ -5,6 +5,7 @@ using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using UnityEditor.Callbacks;
 using A;
+using A.Editor;
 
 namespace A.Dialogue.Editor
 {
@@ -13,13 +14,12 @@ namespace A.Dialogue.Editor
     //TODO: Add dialogue graph field to toolbar in script 
     public class ADialogueGraphEditor : EditorWindow
     {
-        ADialogueGraphView view;
+        ADialogueGraphView graphView;
 
-        TextField pathField;
-        TextField nameField;
         ObjectField assetField;
+        ACreateAssetOverlay overlay;
 
-        public ADialogueGraph dialogueGraph;
+        ADialogueGraph graph;
 
         [MenuItem(AConstants.MenuItemRoot + "/Dialogue Graph Editor")]
         public static void OpenWindow()
@@ -53,54 +53,81 @@ namespace A.Dialogue.Editor
             var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(ADialogueConstants.StyleSheetPath);
             root.styleSheets.Add(styleSheet);
 
-            view = root.Q<ADialogueGraphView>();
+            graphView = root.Q<ADialogueGraphView>();
 
-            var newBut = root.Q<Button>("create-new-graph");
-            newBut.clicked += () =>
+            overlay = new ACreateAssetOverlay("Create New Dialogue Graph");
+            overlay.createButton.clicked += () => CreateNewGraph(overlay.nameField.value);
+            overlay.nameField.value = "New Dialogue Graph";
+            root.Add(overlay);
+
+            AAssetModificationProcessorCallbacks.OnWillDelete += (arg0, arg1) =>
             {
-                var asset = AssetDatabase.LoadAssetAtPath<ADialogueGraph>(pathField.value + nameField.value + ".asset");
-
-                if (string.IsNullOrEmpty(nameField.value))
-                    return;
-
-                if (asset != null)
-                {
-                    Debug.LogWarning("The asset you're trying to create already exists. The exsiting asset has been opened instead!");
-                    dialogueGraph = asset;
-                    return;
-                }
-
-                asset = ScriptableObject.CreateInstance<ADialogueGraph>();
-                AssetDatabase.CreateAsset(asset, pathField.value + nameField.value + ".asset");
-                AssetDatabase.SaveAssets();
-                dialogueGraph = asset;
+                if (AssetDatabase.LoadAssetAtPath<ADialogueGraph>(arg0) == graph)
+                    SelectGraph(null);
+                return AssetDeleteResult.DidNotDelete;
             };
 
-            pathField = root.Q<TextField>("asset-path-folder");
-            nameField = root.Q<TextField>("asset-path-name");
+            var toolbar = root.Q<Toolbar>();
+            assetField = new ObjectField();
+            assetField.objectType = typeof(ADialogueGraph);
+            assetField.RegisterValueChangedCallback((ctx) => SelectGraph(ctx.newValue as ADialogueGraph));
+            toolbar.Add(assetField);
 
-            assetField = root.Q<ObjectField>("asset-field");
+            toolbar.Add(new ToolbarSpacer());
 
-            assetField.RegisterValueChangedCallback((c) =>
+            var createButton = new Button();
+            createButton.text = "Create New Dialogue";
+            createButton.clicked += () => overlay.Show();
+            toolbar.Add(createButton);
+
+            if (graph == null)
             {
-                dialogueGraph = c.newValue as ADialogueGraph;
-                view.PopulateView(dialogueGraph);
-            });
-
-            assetField.bindingPath = nameof(dialogueGraph);
-            assetField.Bind(new SerializedObject(this));
-
-            dialogueGraph = Selection.activeObject as ADialogueGraph;
-            Selection.activeObject = null;
+                OnSelectionChange();
+            }
+            else
+            {
+                SelectGraph(graph);
+            }
         }
 
-        private void OnInspectorUpdate()
+        private void OnSelectionChange()
         {
-            if (assetField != null && assetField.value == null && !view.isClear)
-                assetField.value = null;
+            EditorApplication.delayCall += () => {
+                ADialogueGraph tree = Selection.activeObject as ADialogueGraph;
+                SelectGraph(tree);
+            };
         }
 
-        
+        void SelectGraph(ADialogueGraph newGraph)
+        {
+            if (graphView == null)
+                return;
+
+            this.graph = newGraph;
+            assetField.SetValueWithoutNotify(graph);
+
+            overlay.Hide();
+
+            graphView.PopulateView(graph);
+
+            if (!graph)
+                return;
+
+            EditorApplication.delayCall += () => {
+                graphView.FrameAll();
+            };
+        }
+
+        void CreateNewGraph(string assetName)
+        {
+            string path = System.IO.Path.Combine(overlay.pathField.value, $"{assetName}.asset");
+            ADialogueGraph graph = ScriptableObject.CreateInstance<ADialogueGraph>();
+            graph.name = overlay.name.ToString();
+            AssetDatabase.CreateAsset(graph, path);
+            AssetDatabase.SaveAssets();
+            Selection.activeObject = graph;
+            EditorGUIUtility.PingObject(graph);
+        }
     }
 }
 #endif

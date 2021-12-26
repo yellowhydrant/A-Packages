@@ -51,7 +51,10 @@ namespace A.Editor
             pathField = this.Q<TextField>("Path");
             pathField.RegisterValueChangedCallback((ctx) =>
             {
-                pathField.SetValueWithoutNotify(ctx.newValue.Substring(ctx.newValue.IndexOf("Assets")));
+                if (ctx.newValue == string.Empty)
+                    pathField.SetValueWithoutNotify("Assets");
+                else
+                    pathField.SetValueWithoutNotify(ctx.newValue.Substring(ctx.newValue.IndexOf("Assets")));
             });
             overlay = this.Q<VisualElement>("Overlay");
             createButton = this.Q<Button>("CreateButton");

@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace A.BehaviourTree
+namespace A.Editor
 {
     public class AAssetModificationProcessorCallbacks : UnityEditor.AssetModificationProcessor
     {
