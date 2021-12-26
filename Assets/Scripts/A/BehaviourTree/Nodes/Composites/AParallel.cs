@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-namespace A.BehaviourTree {
+namespace A.BehaviourTree.Nodes.Standard {
     public class AParallel : ACompositeNode {
         List<State> childrenLeftToExecute = new List<State>();
 

@@ -1,6 +1,7 @@
 #if UNITY_EDITOR
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor.UIElements;
@@ -223,33 +224,39 @@ namespace A.Dialogue.Editor
             newChoiceButton.text = "New Choice";
             node.titleContainer.Add(newChoiceButton);
 
-            //Create IMGUIContainer for additional nodeData variables
-            var editor = UnityEditor.Editor.CreateEditor(node.nodeData);
-            var container = new IMGUIContainer(() =>
+            if (!nodeData.isBranch)
             {
-                EditorGUILayout.BeginVertical();
-                if (dialogueGraph != null && dialogueGraph.register != null)
+                //Create IMGUIContainer for additional nodeData variables
+                var editor = UnityEditor.Editor.CreateEditor(node.nodeData);
+                var container = new IMGUIContainer(() =>
                 {
-                    var names = new string[dialogueGraph.register.speakers.Count];
-                    var cur = 0;
-                    for (int i = 0; i < names.Length; i++)
+                    EditorGUILayout.BeginVertical();
+                    if (dialogueGraph != null && dialogueGraph.register != null)
                     {
-                        names[i] = dialogueGraph.register.speakers[i].name;
-                        if (dialogueGraph.register.speakers[i].guid == nodeData.speaker.guid)
-                            cur = i;
+                        var names = new string[dialogueGraph.register.speakers.Count];
+                        var cur = 0;
+                        for (int i = 0; i < names.Length; i++)
+                        {
+                            names[i] = dialogueGraph.register.speakers[i].name;
+                            if (dialogueGraph.register.speakers[i].guid == nodeData.speaker.guid)
+                                cur = i;
+                        }
+                        nodeData.speaker = dialogueGraph.register.speakers[EditorGUILayout.Popup("Speaker:", cur, names)];
+                        nameText.text = nodeData.speaker.name;
                     }
-                    nodeData.speaker = dialogueGraph.register.speakers[EditorGUILayout.Popup("Speaker:", cur, names)];
-                    nameText.text = nodeData.speaker.name;
-                }
-                EditorGUILayout.EndVertical();
-                if (editor != null && editor.target != null)
-                {
-                    editor.OnInspectorGUI();
-                }
-            });
-            container.style.maxWidth = 320f;
-            node.mainContainer.Add(container);
-
+                    EditorGUILayout.EndVertical();
+                    if (editor != null && editor.target != null)
+                    {
+                        editor.OnInspectorGUI();
+                    }
+                });
+                container.style.maxWidth = 320f;
+                node.mainContainer.Add(container);
+            }
+            else
+            {
+                node.TurnIntoBranchNode();
+            }
             //Refresh and return node
             RefreshNode(node);
             return node;
@@ -277,27 +284,52 @@ namespace A.Dialogue.Editor
             //Create and add port to node.outputContainer
             var port = GeneratePort(node, Direction.Output);
             var num = node.outputContainer.Query("connector").ToList().Count;
-            if(num == 0)
+            if (num == 0)
                 port.portName = portName == null ? ADialogueGraph.Continue : portName;
             else
                 port.portName = portName == null ? $"Choice {num}" : portName;
             port.contentContainer.Remove(port.Q<Label>("type"));
             node.outputContainer.Add(port);
 
-            //Create and add choiceTextField to port.contentContainer
-            var choiceTextField = new TextField() { name = string.Empty, value = port.portName };
-            choiceTextField.RegisterValueChangedCallback((c) =>
+            //if (node.nodeData.isBranch)
+            //{
+            //    newValue = Regex.Replace(newValue, "[^0-9]", "");
+            //    prevValue = Regex.Replace(prevValue, "[^0-9]", "");
+            //}
+
+            if (!node.nodeData.isBranch)
             {
-                port.portName = c.newValue;
-                if (dialogueGraph != null)
+                //Create and add choiceTextField to port.contentContainer
+                var choiceTextField = new TextField() { name = string.Empty, value = port.portName };
+                choiceTextField.RegisterValueChangedCallback((c) =>
                 {
-                    var link = dialogueGraph.nodeLinks.FirstOrDefault((x) => x.baseGUID == node.GUID && x.portName == c.previousValue);
-                    if(link != null)
-                        link.portName = c.newValue;
-                }
-            });
-            port.contentContainer.Add(new Label("  "));
-            port.contentContainer.Add(choiceTextField);
+                    port.portName = c.newValue;
+                    if (dialogueGraph != null)
+                    {
+                        var link = dialogueGraph.nodeLinks.FirstOrDefault((x) => x.baseGUID == node.GUID && x.portName == c.previousValue);
+                        if (link != null)
+                            link.portName = c.newValue;
+                    }
+                });
+                port.contentContainer.Add(new Label("  "));
+                port.contentContainer.Add(choiceTextField);
+            }
+            else
+            {
+                var choiceTextField = new IntegerField() { name = string.Empty, value = int.Parse(Regex.Replace(port.portName, "[^0-9]", "")) };
+                choiceTextField.RegisterValueChangedCallback((c) =>
+                {
+                    port.portName = c.newValue.ToString();
+                    if (dialogueGraph != null)
+                    {
+                        var link = dialogueGraph.nodeLinks.FirstOrDefault((x) => x.baseGUID == node.GUID && x.portName == c.previousValue.ToString());
+                        if (link != null)
+                            link.portName = c.newValue.ToString();
+                    }
+                });
+                port.contentContainer.Add(new Label("  "));
+                port.contentContainer.Add(choiceTextField);
+            }
 
             //Create and add delete button
             var deleteBut = new Button(() => RemoveChoicePort(node, port)) { text = "x"};

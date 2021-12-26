@@ -29,10 +29,10 @@ namespace A
 }
 
 #if UNITY_EDITOR
-namespace A.Internal
+namespace A.Editor
 {
 	using UnityEditor;
-	using EditorTools;
+	using Tools;
 
 	[CustomPropertyDrawer(typeof(ConditionalFieldAttribute))]
 	public class ConditionalFieldAttributeDrawer : PropertyDrawer

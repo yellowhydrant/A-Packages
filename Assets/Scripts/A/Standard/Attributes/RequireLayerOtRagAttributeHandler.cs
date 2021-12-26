@@ -1,5 +1,5 @@
 #if UNITY_EDITOR
-namespace A.Internal
+namespace A.Editor
 {
 	using UnityEditor;
 	using UnityEngine;

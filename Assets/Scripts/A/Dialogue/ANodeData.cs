@@ -16,6 +16,7 @@ namespace A.Dialogue
         public Vector2 nodePosition;
         [HideInInspector]
         public string GUID;
+        internal bool isBranch;
 
         public void Init(string guid, string dialogue, Vector2 pos)
         {

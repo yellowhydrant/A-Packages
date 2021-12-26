@@ -6,8 +6,10 @@ using UnityEngine.UIElements;
 using UnityEditor.Experimental.GraphView;
 using System;
 using System.Linq;
+using A.BehaviourTree.Nodes;
 
 namespace A.BehaviourTree {
+    //TODO: Get rid of behaviourtree settings
     public class ABehaviourTreeView : GraphView {
 
         public Action<ANodeView> OnNodeSelected;
@@ -60,6 +62,9 @@ namespace A.BehaviourTree {
             graphViewChanged -= OnGraphViewChanged;
             DeleteElements(graphElements.ToList());
             graphViewChanged += OnGraphViewChanged;
+
+            if (tree == null)
+                return;
 
             if (tree.rootNode == null) {
                 tree.rootNode = tree.CreateNode(typeof(ARootNode)) as ARootNode;
@@ -127,31 +132,35 @@ namespace A.BehaviourTree {
             //base.BuildContextualMenu(evt);
 
             // New script functions
-            evt.menu.AppendAction($"Create Script.../New Action Node", (a) => CreateNewScript(scriptFileAssets[0]));
-            evt.menu.AppendAction($"Create Script.../New Composite Node", (a) => CreateNewScript(scriptFileAssets[1]));
-            evt.menu.AppendAction($"Create Script.../New Decorator Node", (a) => CreateNewScript(scriptFileAssets[2]));
-            evt.menu.AppendSeparator();
+            //evt.menu.AppendAction($"Create Script.../New Action Node", (a) => CreateNewScript(scriptFileAssets[0]));
+            //evt.menu.AppendAction($"Create Script.../New Composite Node", (a) => CreateNewScript(scriptFileAssets[1]));
+            //evt.menu.AppendAction($"Create Script.../New Decorator Node", (a) => CreateNewScript(scriptFileAssets[2]));
+            //evt.menu.AppendSeparator();
 
             Vector2 nodePosition = this.ChangeCoordinatesTo(contentViewContainer, evt.localMousePosition);
-            {
+            
+            AppendMenuFor<AActionNode>();
+            AppendMenuFor<ACompositeNode>();
+            AppendMenuFor<ADecoratorNode>();
 
-                var types = TypeCache.GetTypesDerivedFrom<AActionNode>();
-                foreach (var type in types) {
-                    evt.menu.AppendAction($"[Action]/{type.Name}", (a) => CreateNode(type, nodePosition));
-                }
-            }
-
+            void AppendMenuFor<T>()
             {
-                var types = TypeCache.GetTypesDerivedFrom<ACompositeNode>();
-                foreach (var type in types) {
-                    evt.menu.AppendAction($"[Composite]/{type.Name}", (a) => CreateNode(type, nodePosition));
-                }
-            }
-
-            {
-                var types = TypeCache.GetTypesDerivedFrom<ADecoratorNode>();
-                foreach (var type in types) {
-                    evt.menu.AppendAction($"[Decorator]/{type.Name}", (a) => CreateNode(type, nodePosition));
+                var types = TypeCache.GetTypesDerivedFrom<T>();
+                foreach (var type in types)
+                {
+                    var path = $"[{type.Namespace.Substring(typeof(T).Namespace.Length).Substring(1)}]";
+                    var lowestType = type;
+                    var hierarchy = new List<Type>();
+                    while (lowestType != typeof(T))
+                    {
+                        lowestType = lowestType.BaseType;
+                        hierarchy.Add(lowestType);
+                    }
+                    for (int i = hierarchy.Count - 1; i >= 0; i--)
+                    {
+                        path += $"/[{hierarchy[i].Name.Substring(1)}{(lowestType == typeof(T) ? "s" : "")}]";
+                    }
+                    evt.menu.AppendAction($"{path}/{type.Name.Substring(1)}", (a) => CreateNode(type, nodePosition));
                 }
             }
         }

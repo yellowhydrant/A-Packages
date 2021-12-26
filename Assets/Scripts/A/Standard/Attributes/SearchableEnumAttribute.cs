@@ -26,7 +26,7 @@ namespace A
 }
 
 #if UNITY_EDITOR
-namespace A.Internal
+namespace A.Editor
 {
 	/// <summary>
 	/// Draws the custom enum selector popup for enum fields using the

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace A.BehaviourTree {
+namespace A.BehaviourTree.Nodes {
     public abstract class ANode : ScriptableObject {
         public enum State {
             Running,
@@ -16,7 +16,7 @@ namespace A.BehaviourTree {
         [HideInInspector] public Vector2 position;
         [HideInInspector] public AContext context;
         [HideInInspector] public ABlackboard blackboard;
-        [TextArea] public string description;
+        [HideInInspector] public string description;
         public bool drawGizmos = false;
 
         public State Update() {

@@ -8,6 +8,9 @@ using A;
 
 namespace A.Dialogue.Editor
 {
+    //TODO: Add select method and make selection like in behaviour tree
+    //TODO: Add overlay
+    //TODO: Add dialogue graph field to toolbar in script 
     public class ADialogueGraphEditor : EditorWindow
     {
         ADialogueGraphView view;
@@ -18,12 +21,12 @@ namespace A.Dialogue.Editor
 
         public ADialogueGraph dialogueGraph;
 
-        [MenuItem(AConstants.ItemMenuRoot + "/Dialogue Graph Editor")]
+        [MenuItem(AConstants.MenuItemRoot + "/Dialogue Graph Editor")]
         public static void OpenWindow()
         {
             ADialogueGraphEditor wnd = GetWindow<ADialogueGraphEditor>();
             wnd.titleContent = new GUIContent("Dialogue Graph Editor");
-            wnd.minSize = new Vector2(800, 600);
+            wnd.minSize = new Vector2(800, 400);
         }
 
         [OnOpenAsset]

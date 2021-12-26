@@ -8,7 +8,7 @@ namespace A.BehaviourTree {
     public class InspectorView : VisualElement {
         public new class UxmlFactory : UxmlFactory<InspectorView, VisualElement.UxmlTraits> { }
 
-        Editor editor;
+        UnityEditor.Editor editor;
 
         public InspectorView() {
 
@@ -19,7 +19,7 @@ namespace A.BehaviourTree {
 
             UnityEngine.Object.DestroyImmediate(editor);
 
-            editor = Editor.CreateEditor(nodeView.node);
+            editor = UnityEditor.Editor.CreateEditor(nodeView.node);
             IMGUIContainer container = new IMGUIContainer(() => {
                 if (editor && editor.target) {
                     editor.OnInspectorGUI();

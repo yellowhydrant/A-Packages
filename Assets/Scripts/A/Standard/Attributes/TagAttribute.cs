@@ -18,7 +18,7 @@ namespace A
 }
 
 #if UNITY_EDITOR
-namespace A.Internal
+namespace A.Editor
 {
 	[CustomPropertyDrawer(typeof(TagAttribute))]
 	public class TagAttributeDrawer : PropertyDrawer

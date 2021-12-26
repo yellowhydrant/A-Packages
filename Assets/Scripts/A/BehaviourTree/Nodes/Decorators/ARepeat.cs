@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace A.BehaviourTree {
+namespace A.BehaviourTree.Nodes.Standard {
     public class ARepeat : ADecoratorNode {
 
         public bool restartOnSuccess = true;

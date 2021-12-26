@@ -3,17 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using A.BehaviourTree;
 
-public class ABreakpoint : AActionNode
+namespace A.BehaviourTree.Nodes.Standard
 {
-    protected override void OnStart() {
-        Debug.Log("Triggering Breakpoint");
-        Debug.Break();
-    }
+    public class ABreakpoint : AActionNode
+    {
+        protected override void OnStart()
+        {
+            Debug.Log("Triggering Breakpoint");
+            Debug.Break();
+        }
 
-    protected override void OnStop() {
-    }
+        protected override void OnStop()
+        {
+        }
 
-    protected override State OnUpdate() {
-        return State.Success;
+        protected override State OnUpdate()
+        {
+            return State.Success;
+        }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace A.BehaviourTree {
+namespace A.BehaviourTree.Nodes {
     public abstract class AActionNode : ANode {
 
     }

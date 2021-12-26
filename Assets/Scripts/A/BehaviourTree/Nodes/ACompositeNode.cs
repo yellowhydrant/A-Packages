@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace A.BehaviourTree {
+namespace A.BehaviourTree.Nodes {
     public abstract class ACompositeNode : ANode {
         [HideInInspector] public List<ANode> children = new List<ANode>();
 

@@ -18,9 +18,9 @@ namespace A
 }
 
 #if UNITY_EDITOR
-namespace A.Internal
+namespace A.Editor
 {
-	using EditorTools;
+	using Tools;
 	using UnityEditor;
 
 	[CustomPropertyDrawer(typeof(DisplayInspectorAttribute))]

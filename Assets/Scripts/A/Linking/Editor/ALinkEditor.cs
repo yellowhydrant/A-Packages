@@ -10,7 +10,7 @@ namespace A.Linking.Editor
     {
         ALinkView view;
 
-        [MenuItem(AConstants.ItemMenuRoot + "/Link Editor")]
+        [MenuItem(AConstants.MenuItemRoot + "/Link Editor")]
         public static void ShowExample()
         {
             ALinkEditor wnd = GetWindow<ALinkEditor>();

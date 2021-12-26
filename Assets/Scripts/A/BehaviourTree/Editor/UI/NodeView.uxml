@@ -2,7 +2,7 @@
     <Style src="NodeViewStyle.uss" />
     <ui:VisualElement name="node-state" />
     <ui:VisualElement name="node-border">
-        <ui:VisualElement name="contents">
+        <ui:VisualElement name="contents" style="width: 180px;">
             <ui:VisualElement name="top">
                 <ui:VisualElement name="input" />
                 <ui:VisualElement name="divider" class="vertical" />
@@ -13,7 +13,7 @@
                             <ui:VisualElement name="icon" />
                         </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:Label display-tooltip-when-elided="true" name="description" />
+                    <ui:TextField name="description" text="*description here*" multiline="true" style="-unity-font-style: normal; -unity-text-align: upper-left;" />
                 </ui:VisualElement>
                 <ui:VisualElement name="divider" class="horizontal" />
                 <ui:VisualElement name="output" />

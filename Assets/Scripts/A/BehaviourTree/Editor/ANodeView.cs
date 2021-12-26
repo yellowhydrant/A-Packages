@@ -6,8 +6,10 @@ using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor;
+using A.BehaviourTree.Nodes;
 
-namespace A.BehaviourTree {
+namespace A.BehaviourTree
+{
 
     public class ANodeView : UnityEditor.Experimental.GraphView.Node {
         public Action<ANodeView> OnNodeSelected;
@@ -17,7 +19,7 @@ namespace A.BehaviourTree {
 
         public ANodeView(ANode node) : base(AssetDatabase.GetAssetPath(BehaviourTreeSettings.GetOrCreateSettings().nodeXml)) {
             this.node = node;
-            this.node.name = node.GetType().Name;
+            this.node.name = node.GetType().Name.Substring(1);
             this.title = node.name.Replace("(Clone)", "").Replace("Node", "");
             this.viewDataKey = node.guid;
 
@@ -31,9 +33,11 @@ namespace A.BehaviourTree {
         }
 
         private void SetupDataBinding() {
-            Label descriptionLabel = this.Q<Label>("description");
-            descriptionLabel.bindingPath = "description";
-            descriptionLabel.Bind(new SerializedObject(node));
+            TextField descriptionField = this.Q<TextField>("description");
+            descriptionField.value = node.description;
+            descriptionField.RegisterValueChangedCallback((ctx) => node.description = ctx.newValue);
+            //descriptionLabel.bindingPath = "description";
+            //descriptionLabel.Bind(new SerializedObject(node));
         }
 
         private void SetupClasses() {

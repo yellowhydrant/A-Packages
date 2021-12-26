@@ -7,6 +7,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 namespace A.Dialogue
 {
@@ -90,14 +91,29 @@ namespace A.Dialogue
         {
             var node = graph.nodeData.Find(x => x.GUID == dialogueNodeGUID);
 
+            var choices = graph.nodeLinks.Where(x => x.baseGUID == dialogueNodeGUID).ToArray();
+            if (node.isBranch)
+            {
+                var max = 0;
+                for (int i = 0; i < choices.Length; i++)
+                {
+                    if (int.TryParse(choices[i].portName, out int result))
+                        max += result;
+                }
+                for (int i = 0; i < choices.Length; i++)
+                {
+                    int.TryParse(choices[i].portName, out int result);
+                    if (result <= Random.Range(0f, max))
+                        ProceedToNextNode(choices[i].targetGUID);
+                }
+                ProceedToNextNode(choices[Random.Range(0, choices.Length)].targetGUID);
+            }
+
             //Speaker setup
-            if(nameText != null)
+            if (nameText != null)
                 nameText.text = node.speaker.name;
             if (spriteImage != null)
                 spriteImage.sprite = node.speaker.sprite;
-            
-
-            var choices = graph.nodeLinks.Where(x => x.baseGUID == dialogueNodeGUID);
 
             //StopCoroutine(nameof(TypeDialogue));
             //StartCoroutine(TypeDialogue(node));
@@ -108,23 +124,22 @@ namespace A.Dialogue
             if (backgroundBlur != null)
                 backgroundBlur.SetActive(false);
 
-            var choiceArray = choices.ToArray();
-            if (choiceArray.Length == 1)
+            if (choices.Length == 1)
             {
-                if (choiceArray[0].portName.ToLower() == ADialogueGraph.Continue.ToLower())
+                if (choices[0].portName.ToLower() == ADialogueGraph.Continue.ToLower())
                 {
                     continueButton.onClick.RemoveAllListeners();
                     continueButton.onClick.AddListener(() =>
                     {
                         ActivateContinueButton(false);
-                        InvokeNodeEvent(node, choiceArray[0].targetGUID);
+                        InvokeNodeEvent(node, choices[0].targetGUID);
                     });
                     ActivateContinueButton(true);
                     return;
                 }
             }
 
-            if (choiceArray == null || choiceArray.Length == 0)
+            if (choices == null || choices.Length == 0)
             {
                 continueButton.onClick.RemoveAllListeners();
                 continueButton.onClick.AddListener(() =>

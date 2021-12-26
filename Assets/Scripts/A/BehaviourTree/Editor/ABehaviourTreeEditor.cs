@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -6,26 +5,25 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using UnityEditor.Callbacks;
+using A.Editor;
 
-namespace A.BehaviourTree {
-
+namespace A.BehaviourTree
+{
+    //TODO: Add the description field to the node itself (follow TheKiwiCoder Tut)
     public class ABehaviourTreeEditor : EditorWindow {
 
         ABehaviourTreeView treeView;
         ABehaviourTree tree;
         InspectorView inspectorView;
         IMGUIContainer blackboardView;
-        ToolbarMenu toolbarMenu;
-        TextField treeNameField;
-        TextField locationPathField;
-        Button createNewTreeButton;
-        VisualElement overlay;
-        //BehaviourTreeSettings settings;
+        Toolbar toolBar;
+        ObjectField assetField;
+        ACreateAssetOverlay overlay;
 
         SerializedObject treeObject;
         SerializedProperty blackboardProperty;
 
-        [MenuItem("TheKiwiCoder/BehaviourTreeEditor ...")]
+        [MenuItem(AConstants.MenuItemRoot + "/Behaviour Tree")]
         public static void OpenWindow() {
             ABehaviourTreeEditor wnd = GetWindow<ABehaviourTreeEditor>();
             wnd.titleContent = new GUIContent("BehaviourTreeEditor");
@@ -86,22 +84,34 @@ namespace A.BehaviourTree {
             };
 
             // Toolbar assets menu
-            toolbarMenu = root.Q<ToolbarMenu>();
-            var behaviourTrees = LoadAssets<ABehaviourTree>();
-            behaviourTrees.ForEach(tree => {
-                toolbarMenu.menu.AppendAction($"{tree.name}", (a) => {
-                    Selection.activeObject = tree;
-                });
-            });
-            toolbarMenu.menu.AppendSeparator();
-            toolbarMenu.menu.AppendAction("New Tree...", (a) => CreateNewTree("NewBehaviourTree"));
+            toolBar = root.Q<Toolbar>();
+            assetField = new ObjectField();
+            assetField.objectType = typeof(ABehaviourTree);
+            assetField.RegisterValueChangedCallback((ctx) => { SelectTree(ctx.newValue as ABehaviourTree); });
+            toolBar.Add(assetField);
+            toolBar.Add(new ToolbarSpacer());
+            var createNewButton = new Button();
+            createNewButton.text = "New Behaviour Tree";
+            createNewButton.clicked += () => overlay.Show();
+            toolBar.Add(createNewButton);
+            //var behaviourTrees = LoadAssets<ABehaviourTree>();
+            //behaviourTrees.ForEach(tree => {
+            //    toolbarMenu.menu.AppendAction($"{tree.name}", (a) => {
+            //        Selection.activeObject = tree;
+            //    });
+            //});
+            //toolbarMenu.menu.AppendSeparator();
+            //toolbarMenu.menu.AppendAction("New Tree...", (a) => CreateNewTree("NewBehaviourTree"));
 
             // New Tree Dialog
-            treeNameField = root.Q<TextField>("TreeName");
-            locationPathField = root.Q<TextField>("LocationPath");
-            overlay = root.Q<VisualElement>("Overlay");
-            createNewTreeButton = root.Q<Button>("CreateButton");
-            createNewTreeButton.clicked += () => CreateNewTree(treeNameField.value);
+            overlay = new ACreateAssetOverlay("Create New Tree");
+            root.Add(overlay);
+            overlay.createButton.clicked += () => CreateNewTree(overlay.nameField.value);
+            AAssetModificationProcessorCallbacks.OnWillDelete += (arg0, arg1) =>
+            {
+                if (AssetDatabase.LoadAssetAtPath<ABehaviourTree>(arg0) != null)
+                    SelectTree(null);
+                return AssetDeleteResult.DidNotDelete; };
 
             if (tree == null) {
                 OnSelectionChange();
@@ -156,13 +166,14 @@ namespace A.BehaviourTree {
                 return;
             }
 
-            if (!newTree) {
-                return;
-            }
+            //if (!newTree) {
+            //    return;
+            //}
 
             this.tree = newTree;
+            assetField.SetValueWithoutNotify(tree);
 
-            overlay.style.visibility = Visibility.Hidden;
+            overlay.Hide();
 
             if (Application.isPlaying) {
                 treeView.PopulateView(tree);
@@ -170,9 +181,11 @@ namespace A.BehaviourTree {
                 treeView.PopulateView(tree);
             }
 
-            
+            if (!tree)
+                return;
+
             treeObject = new SerializedObject(tree);
-            blackboardProperty = treeObject.FindProperty("blackboard");
+            blackboardProperty = treeObject.FindProperty(nameof(tree.blackboard));
 
             EditorApplication.delayCall += () => {
                 treeView.FrameAll();
@@ -188,9 +201,9 @@ namespace A.BehaviourTree {
         }
 
         void CreateNewTree(string assetName) {
-            string path = System.IO.Path.Combine(locationPathField.value, $"{assetName}.asset");
+            string path = System.IO.Path.Combine(overlay.pathField.value, $"{assetName}.asset");
             ABehaviourTree tree = ScriptableObject.CreateInstance<ABehaviourTree>();
-            tree.name = treeNameField.ToString();
+            tree.name = overlay.name.ToString();
             AssetDatabase.CreateAsset(tree, path);
             AssetDatabase.SaveAssets();
             Selection.activeObject = tree;

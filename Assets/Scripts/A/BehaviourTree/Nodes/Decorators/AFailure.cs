@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace A.BehaviourTree {
+namespace A.BehaviourTree.Nodes.Standard {
     public class AFailure : ADecoratorNode {
         protected override void OnStart() {
         }

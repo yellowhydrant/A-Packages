@@ -29,7 +29,7 @@ namespace A
 }
 
 #if UNITY_EDITOR
-namespace A.Internal
+namespace A.Editor
 {
 	using System.Linq;
 	using System.Collections.Generic;

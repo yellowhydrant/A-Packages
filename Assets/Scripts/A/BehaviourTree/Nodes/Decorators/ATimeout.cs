@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace A.BehaviourTree {
+namespace A.BehaviourTree.Nodes.Standard {
     public class ATimeout : ADecoratorNode {
         public float duration = 1.0f;
         float startTime;

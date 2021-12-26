@@ -4,10 +4,11 @@ using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
+using A.BehaviourTree.Nodes;
 
 
 namespace A.BehaviourTree {
-    [CreateAssetMenu()]
+    [CreateAssetMenu(menuName = AConstants.AssetMenuRoot + "/" + ABehaviourTreeConstants.AssetMenuRoot + "/Behaviour Tree")]
     public class ABehaviourTree : ScriptableObject {
         public ANode rootNode;
         public ANode.State treeState = ANode.State.Running;
