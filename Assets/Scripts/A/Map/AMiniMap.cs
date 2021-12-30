@@ -5,14 +5,14 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace A.Minimap
+namespace A.Map
 {
     //TODO: Add fullscreen mode where you can place a limited amount of pins manually
     //TODO: Rename to AMap
     [AddComponentMenu("A/Singletons/Mini Map")]
     public class AMiniMap : ASingleton<AMiniMap>
     {
-        public Transform target;
+        public Transform player;
 
         [SerializeField] BoxCollider worldSpaceArea;
         [SerializeField] RectTransform screenSpaceArea;
@@ -27,14 +27,14 @@ namespace A.Minimap
         [SerializeField] RectTransform mapPinContainer;
 
         [SerializeField] Image pinPrefab;
-        [SerializeField] MapPin.PinStyle defaultPinStyle;
+        [SerializeField] Pin.PinStyle defaultPinStyle;
 
-        ObservableCollection<MapPin> pins { get { UpdatePinPositions(); return mapPins_; } set => mapPins_ = value; }
-        ObservableCollection<MapPin> mapPins_ = new ObservableCollection<MapPin>();
+        ObservableCollection<Pin> pins { get { UpdatePinPositions(); return mapPins_; } set => mapPins_ = value; }
+        ObservableCollection<Pin> mapPins_ = new ObservableCollection<Pin>();
 
         WaitForSeconds updateDelay = new WaitForSeconds(0.1f);
 
-        public class MapPin
+        public class Pin
         {
             public string id;
             public string name;
@@ -63,7 +63,7 @@ namespace A.Minimap
                 }
             }
 
-            public MapPin(string id, string name, Vector3 wsPosition, PinStyle overrideStyle = null)
+            public Pin(string id, string name, Vector3 wsPosition, PinStyle overrideStyle = null)
             {
                 this.id = id;
                 this.name = name;
@@ -95,7 +95,7 @@ namespace A.Minimap
         void Awake()
         {
             pins.CollectionChanged += OnMapPinsChanged;
-            MapPin.defaultStyle = defaultPinStyle;
+            Pin.defaultStyle = defaultPinStyle;
             visibleAreaBorders[0] = new System.ValueTuple<Vector2, Vector2>(new Vector2(visibleArea.rect.xMin, visibleArea.rect.yMin), new Vector2(visibleArea.rect.xMax, visibleArea.rect.yMin));
             visibleAreaBorders[1] = new System.ValueTuple<Vector2, Vector2>(new Vector2(visibleArea.rect.xMax, visibleArea.rect.yMin), new Vector2(visibleArea.rect.xMax, visibleArea.rect.yMax));
             visibleAreaBorders[2] = new System.ValueTuple<Vector2, Vector2>(new Vector2(visibleArea.rect.xMax, visibleArea.rect.yMax), new Vector2(visibleArea.rect.xMin, visibleArea.rect.yMax));
@@ -106,17 +106,17 @@ namespace A.Minimap
 
         void LateUpdate()
         {
-            if (target == null)
+            if (player == null)
             {
                 targetPin.gameObject.SetActive(false);
                 return;
             }
             targetPin.gameObject.SetActive(true);
-            screenSpaceArea.anchoredPosition = TransformPointFromWorldToMap(target.position) * -screenSpaceArea.localScale;
-            targetPin.localEulerAngles = new Vector3(0, 0, -target.localEulerAngles.y);
+            screenSpaceArea.anchoredPosition = TransformPointFromWorldToMap(player.position) * -screenSpaceArea.localScale;
+            targetPin.localEulerAngles = new Vector3(0, 0, -player.localEulerAngles.y);
         }
 
-        public void AddPin(MapPin pin)
+        public void AddPin(Pin pin)
         {
             if(pin != null)
                 pins.Add(pin);
@@ -129,12 +129,12 @@ namespace A.Minimap
             return pins.Remove(pin);
         }
 
-        public bool Remove(MapPin pin)
+        public bool Remove(Pin pin)
         {
             return pins.Remove(pin);
         }
 
-        public MapPin GetPin(string id)
+        public Pin GetPin(string id)
         {
             return pins.First((pin) => pin.id == id);
         }
@@ -152,7 +152,7 @@ namespace A.Minimap
         {
             if (e.NewItems != null)
             {
-                foreach (var pin in e.NewItems.Cast<MapPin>())
+                foreach (var pin in e.NewItems.Cast<Pin>())
                 {
                     var image = Instantiate(pinPrefab, mapPinContainer);
                     pin.SetImage(image);
@@ -162,7 +162,7 @@ namespace A.Minimap
 
             if (e.OldItems != null)
             {
-                foreach (var pin in e.OldItems.Cast<MapPin>())
+                foreach (var pin in e.OldItems.Cast<Pin>())
                 {
                     Destroy(pin.pinImage.gameObject);
                 }
@@ -212,4 +212,6 @@ namespace A.Minimap
         public Vector2 TransformPointFromWorldToMap(Vector3 position) => new Vector2(AMath.RemapValue(position.x, -worldSpaceArea.size.x / 2, worldSpaceArea.size.x / 2, -screenSpaceArea.rect.width/2, screenSpaceArea.rect.width/2), AMath.RemapValue(position.z, -worldSpaceArea.size.z / 2, worldSpaceArea.size.z / 2, -screenSpaceArea.rect.height / 2, screenSpaceArea.rect.height / 2));
         public Vector3 TransformPointFromMapToWorld(Vector2 position) => new Vector3(AMath.RemapValue(position.x, -screenSpaceArea.rect.width / 2, screenSpaceArea.rect.width / 2, -worldSpaceArea.size.x / 2, worldSpaceArea.size.x / 2), 0f, AMath.RemapValue(position.y, -screenSpaceArea.rect.height / 2, screenSpaceArea.rect.height / 2, -worldSpaceArea.size.z / 2, worldSpaceArea.size.z / 2));
     }
+
+
 }

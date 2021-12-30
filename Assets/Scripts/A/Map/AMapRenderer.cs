@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace A.Minimap
+namespace A.Map
 {
     public class AMapRenderer : MonoBehaviour
     {

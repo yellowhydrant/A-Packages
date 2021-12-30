@@ -125,5 +125,57 @@ namespace A
 
             return spawnPos;
         }
+
+        public static Vector2 CircleIntersect(Vector2 center, Vector2 point, float radius)
+        {
+            //phi = atan2(y2 - y1, x2 - x1)
+            //x = x1 + r * cos(phi)
+            //y = y1 + r * sin(phi)
+            var intersection = new Vector2();
+            var phi = Mathf.Atan2(point.y - center.y, point.x - center.x);
+            intersection.x = center.x + radius * Mathf.Cos(phi);
+            intersection.y = center.y + radius * Mathf.Sin(phi);
+            return intersection;
+        }
+
+        //public struct Quadratic
+        //{
+        //    public float a, b, c;
+
+        //    public Quadratic(float a, float b, float c)
+        //    {
+        //        this.a = a;
+        //        this.b = b;
+        //        this.c = c;
+        //    }
+
+        //    public Quadratic(Vector2 p1, Vector2 p2)
+        //    {
+        //        a = p1.y - p2.y;
+        //        b = p2.x - p1.x;
+        //        c = (p1.x - p2.x) * p1.y + (p2.y - p1.y) * p1.x;
+        //    }
+
+        //    public static Quadratic operator -(Quadratic lhs, Quadratic rhs)
+        //    {
+        //        lhs.a -= rhs.a;
+        //        lhs.b -= rhs.b;
+        //        lhs.c -= rhs.c;
+        //        return lhs;
+        //    }
+        //}
+
+        //public static System.ValueTuple<Vector2, Vector2> SolveQuadratic(Quadratic left, Quadratic right)
+        //{
+        //    var result = new System.ValueTuple<Vector2, Vector2>();
+        //    var e = left - right;
+        //    var d = Mathf.Pow(e.b, 2) - 4 * e.a * e.c;
+        //    var x1 = (-e.b + Mathf.Sqrt(d))/2*e.a;
+        //    var x2 = (-e.b - Mathf.Sqrt(d))/2*e.a;
+        //    result.Item1 = new Vector2(x1, (e.a * Mathf.Pow(x1, 2)) + (e.b * x1) + (e.c));
+        //    result.Item2 = new Vector2(x2, (e.a * Mathf.Pow(x2, 2)) + (e.b * x2) + (e.c));
+
+        //    return result;
+        //}
     }
 }

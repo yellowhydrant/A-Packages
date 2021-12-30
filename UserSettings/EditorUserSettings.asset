@@ -6,22 +6,25 @@ EditorUserSettings:
   serializedVersion: 4
   m_ConfigSettings:
     RecentlyUsedScenePath-0:
-      value: 22424703114646680e0b0227036c6c111b07142f1f2b233e2867083debf42d
-      flags: 0
-    RecentlyUsedScenePath-1:
       value: 2242470311464668190f1e3615317e0305120c39631c2e393f2d2d36f0f33b36c1e838fdf53533303c10a00f073b0f3ae1453907f7120d191e1bf30a5fea1e1a05dc
       flags: 0
-    RecentlyUsedScenePath-2:
+    RecentlyUsedScenePath-1:
       value: 22424703114646680e1c053204301031592310233e2c16353f3a123dcfef223defe238fda80e3a2f2d31ec390a3b4f2afc031d12
       flags: 0
-    RecentlyUsedScenePath-3:
+    RecentlyUsedScenePath-2:
       value: 2242470311464668190f0226112f501e13311126290a343f3a3a1821add33535f2eb33a6c53b2c353a31ee311432040cf10f070eb81e04020517
       flags: 0
-    RecentlyUsedScenePath-4:
+    RecentlyUsedScenePath-3:
       value: 2242470311464668190f0226112f501e13311126290a343f3a3a1821add33535f2eb33a6c43b312a3811dc3d092e0d3ac1090c05f3451f05181ae4
       flags: 0
-    RecentlyUsedScenePath-5:
+    RecentlyUsedScenePath-4:
       value: 22424703114646720318092c042c4d0922120b3e3f66333e243d04
+      flags: 0
+    RecentlyUsedScenePath-5:
+      value: 22424703114646680e0b0227036c6c111b07142f1f2b233e2867083debf42d
+      flags: 0
+    RecentlyUsedScenePath-6:
+      value: 22424703114646680e1c053204301031593a193a631c232339692e30e7ee3176f7e93ffdfe
       flags: 0
     UIBuilder.HideNotificationAboutMissingUITKPackage:
       value: 37434103
