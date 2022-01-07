@@ -138,6 +138,17 @@ namespace A
             return intersection;
         }
 
+        public static Vector2 GetPointAtDistance(Vector2 ls, Vector2 le, float dist)
+        {
+            var u = (ls - le).normalized;
+            return ls - u * dist;
+        }
+
+        public static Vector2 Clamp(this Vector2 val, Vector2 min, Vector2 max)
+        {
+            return new Vector2(Mathf.Clamp(val.x, min.x, max.x), Mathf.Clamp(val.y, min.y, max.y));
+        }
+
         //public struct Quadratic
         //{
         //    public float a, b, c;

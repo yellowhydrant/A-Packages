@@ -9,10 +9,16 @@ namespace A
     public class ATags : MonoBehaviour
     {
         public ATag[] tags;
+        HashSet<string> hashedTags;
+
+        private void Awake()
+        {
+            hashedTags = new HashSet<string>(tags.Cast<string>());
+        }
 
         public bool HasTag(string tag)
         {
-            return tags.Any((t) => t.tag == tag);
+            return hashedTags.Contains(tag);
         }
     }
 }

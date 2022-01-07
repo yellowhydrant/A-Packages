@@ -18,12 +18,12 @@ namespace A.Inventory
         public Capabilities capabilities;
 
         public int maxStoredAmount;
-
         public int maxUseCount;
-        [ReadOnly]public int currentUseCount;
 
-        public Tuple<string, Action>[] actions;
-        public Action<AItem> RemoveItemFromInventory;
+        public string guid { get; private set; }
+
+        public virtual Tuple<string, Sprite, Action<AInventoryItem>>[] actions { get; protected set; }
+        public Action<AItem, int> RemoveItemFromInventory;
 
         public enum Rarity
         {
@@ -65,6 +65,11 @@ namespace A.Inventory
             /// Can this item be moved to a different slot in the inventory?
             /// </summary>
             Movable = 1 << 3
+        }
+
+        protected virtual void Awake()
+        {
+            guid = System.Guid.NewGuid().ToString();
         }
     }
 }

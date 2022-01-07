@@ -5,6 +5,8 @@ using UnityEngine;
 
 namespace A.Map
 {
+    //Assumption: all pins have the same size, are square and the ui elements don't change size at runtime
+    //TODO: Constrain/Clamp visibleArea so it doesnt go ourside the corners of the full map
     public class AMapUI : MonoBehaviour
     {
         public Transform mainTarget;
@@ -19,13 +21,14 @@ namespace A.Map
 
         [SerializeField] float deltaTime = .1f;
 
-        RectTransform targetPin;
+        [SerializeField]RectTransform targetPin;
         Dictionary<APin, APinUI> mappedPins = new Dictionary<APin, APinUI>();
 
         AScope scope;
 
         AMap map;
         Vector2 ssArea;
+        Vector2 offset;
 
         Coroutine slowUpdate;
         WaitForSeconds timer;
@@ -43,9 +46,16 @@ namespace A.Map
             map.onPinsChanged += OnPinsChanged;
             ssArea = new Vector2(mapArea.rect.width, mapArea.rect.height);
             if (scopeType == ScopeType.Rect)
-                scope = new ARectScope(map, ssArea, visibleArea.rect);
+            {
+                scope = new ARectScope(visibleArea, ssArea);
+                offset = (pinPrefab.icon.rectTransform.sizeDelta * .5f) + pinPrefab.arrow.rectTransform.sizeDelta;
+            }
             else
-                scope = new ACircleScope(map, ssArea, visibleArea.position, visibleArea.rect.width / 2);
+            {
+                scope = new ACircleScope(visibleArea, visibleArea.anchoredPosition, visibleArea.rect.width / 2);
+                offset = (pinPrefab.icon.rectTransform.sizeDelta / 2) + pinPrefab.arrow.rectTransform.sizeDelta;
+            }
+
         }
 
         private void OnEnable()
@@ -60,25 +70,33 @@ namespace A.Map
 
         void OnPinsChanged(APin pin, AMap.ChangeType change)
         {
-            switch (change)
+            if (mappedPins.ContainsKey(pin))
             {
-                case AMap.ChangeType.Position:
-                    UpdatePinPosition(pin);
-                    break;
-                case AMap.ChangeType.SpriteAndColor:
-                    UpdatePinSpriteAndColor(pin);
-                    break;
-                case AMap.ChangeType.Visibility:
-                    UpdatePinVisibility(pin);
-                    break;
-                case AMap.ChangeType.Addition:
-                    mappedPins.Add(pin, Instantiate(pinPrefab, pinContainer));
-                    UpdateAll(pin);
-                    break;
-                case AMap.ChangeType.Removal:
-                    Destroy(mappedPins[pin].gameObject);
-                    mappedPins.Remove(pin);
-                    break;
+                switch (change)
+                {
+                    case AMap.ChangeType.Position:
+                        UpdatePinPosition(pin);
+                        return;
+                    case AMap.ChangeType.SpriteAndColor:
+                        UpdatePinSpriteAndColor(pin);
+                        return;
+                    case AMap.ChangeType.Visibility:
+                        UpdatePinVisibility(pin);
+                        return;
+                    case AMap.ChangeType.Removal:
+                        Destroy(mappedPins[pin].gameObject);
+                        mappedPins.Remove(pin);
+                        return;
+                }
+            }
+            else if (change == AMap.ChangeType.Addition)
+            {
+                mappedPins.Add(pin, Instantiate(pinPrefab, pinContainer));
+                UpdateAll(pin);
+            }
+            else
+            {
+                Debug.LogError("Error: This pin hasn't been mapped yet!");
             }
         }
 
@@ -105,6 +123,19 @@ namespace A.Map
             UpdatePinVisibility(pin);
         }
 
+        private void LateUpdate()
+        {
+            if(mainTarget == null)
+            {
+                targetPin.gameObject.SetActive(false);
+                return;
+            }
+            targetPin.gameObject.SetActive(true);
+            mapArea.anchoredPosition = -map.TransformPointFromWorldToMap(mainTarget.position, ssArea);
+            //mapArea.anchoredPosition = -visibleArea.anchoredPosition;
+            targetPin.localEulerAngles = new Vector3(0, 0, -mainTarget.localEulerAngles.y);
+        }
+
         IEnumerator SlowUpdate()
         {
             while (true)
@@ -112,16 +143,22 @@ namespace A.Map
                 {
                     foreach (var pin in mappedPins)
                     {
-                        if (scope.IsWithinScope(pin.Key))
+                        UpdatePinPosition(pin.Key);
+                        if (scope.IsWithinScope(pin.Value.position))
                         {
                             pin.Value.arrow.gameObject.SetActive(false);
                         }
                         else if(pin.Key.visibility == APin.Visibility.Always)
                         {
-                            var intersection = scope.Intersect(pin.Key);
-                            pin.Value.icon.rectTransform.anchoredPosition = intersection + new Vector2(pin.Value.icon.rectTransform.sizeDelta.x / 2 * (intersection.x > 0 ? -1 : 1), pin.Value.icon.rectTransform.sizeDelta.y / 2 * (intersection.y > 0 ? -1 : 1));
+                            var intersection = scope.Intersect(pin.Value.position);
+                            if (scopeType == ScopeType.Rect)
+                                pin.Value.rect.anchoredPosition = AMath.Clamp(intersection, visibleArea.rect.min + offset, visibleArea.rect.max - offset);
+                            else
+                                pin.Value.rect.anchoredPosition = AMath.GetPointAtDistance(visibleArea.rect.center, intersection, (visibleArea.rect.width / 2) - ((offset.x + offset.y) / 2));
+                            pin.Value.rect.anchoredPosition -= mapArea.anchoredPosition;
                             pin.Value.arrow.gameObject.SetActive(true);
-                            pin.Value.arrow.transform.eulerAngles = Vector3.forward * Mathf.Atan2(pin.Value.icon.rectTransform.position.x - visibleArea.position.x, pin.Value.icon.rectTransform.position.y - visibleArea.position.x) * Mathf.Rad2Deg;
+                            var pos = pin.Value.icon.rectTransform.position;
+                            pin.Value.arrow.transform.eulerAngles = Vector3.forward * (Mathf.Atan2(visibleArea.position.x - pos.x, pos.y - visibleArea.position.y) * Mathf.Rad2Deg + pinPrefab.angleOffset);
                         }
                     }
                 }

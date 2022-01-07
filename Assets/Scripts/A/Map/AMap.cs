@@ -51,14 +51,14 @@ namespace A.Map
         public void AddPin(APin pin)
         {
             pins.Add(pin);
-            onPinsChanged.Invoke(pin, ChangeType.Addition);
+            onPinsChanged?.Invoke(pin, ChangeType.Addition);
         }
 
         public bool RemovePin(APin pin)
         {
             if(pins.Remove(pin))
             {
-                onPinsChanged.Invoke(pin, ChangeType.Removal);
+                onPinsChanged?.Invoke(pin, ChangeType.Removal);
                 return true;
             }
             else
@@ -92,7 +92,7 @@ namespace A.Map
             pin.SetSpriteAndColor(this, sprite, color);
         }
 
-        public Vector2 TransformPointFromWorldToMap(Vector3 position, Vector2 ssArea) => new Vector2(AMath.RemapValue(position.x, -wsArea.x / 2, wsArea.x / 2, -ssArea.x / 2, ssArea.x / 2), AMath.RemapValue(position.y, -wsArea.y / 2, wsArea.y / 2, -ssArea.y / 2, ssArea.y / 2));
+        public Vector2 TransformPointFromWorldToMap(Vector3 position, Vector2 ssArea) => new Vector2(AMath.RemapValue(position.x, -wsArea.x / 2, wsArea.x / 2, -ssArea.x / 2, ssArea.x / 2), AMath.RemapValue(position.z, -wsArea.y / 2, wsArea.y / 2, -ssArea.y / 2, ssArea.y / 2));
         public Vector3 TransformPointFromMapToWorld(Vector2 position, Vector2 ssArea) => new Vector3(AMath.RemapValue(position.x, -ssArea.x / 2, ssArea.x / 2, -wsArea.x / 2, wsArea.x / 2), 0f, AMath.RemapValue(position.y, -ssArea.y / 2, ssArea.y / 2, -wsArea.y / 2, wsArea.y / 2));
     }
 }

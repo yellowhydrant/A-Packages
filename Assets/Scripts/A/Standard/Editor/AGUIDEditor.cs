@@ -1,4 +1,5 @@
-﻿using A;
+﻿#if UNITY_EDITOR
+using A;
 using UnityEditor;
 using UnityEngine;
 
@@ -12,3 +13,4 @@ public class AGUIDEditor : Editor
         GUI.enabled = true;
     }
 }
+#endif

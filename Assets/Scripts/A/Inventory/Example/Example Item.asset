@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 417a4e619f03bbe48ad5fb6e03b6eadc, type: 3}
+  m_Name: Example Item
+  m_EditorClassIdentifier: 
+  name: Lantern
+  description: A very bright lantern that needs a suprisingly low amount of fuel.
+  sprite: {fileID: 21300000, guid: 28dffee3b9293de47a95e7b290f27984, type: 3}
+  rarity: 2
+  tags: -1
+  capabilities: -1
+  maxStoredAmount: 12
+  maxUseCount: 3
+  currentUseCount: 0

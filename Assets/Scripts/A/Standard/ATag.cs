@@ -8,5 +8,7 @@ namespace A
     public class ATag : ScriptableObject
     {
         public string tag;
+
+        public static implicit operator string(ATag tag) => tag.tag;
     }
 }

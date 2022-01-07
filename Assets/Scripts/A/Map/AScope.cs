@@ -4,16 +4,16 @@ namespace A.Map
 {
     public abstract class AScope
     {
-        public AMap map;
         public Vector2 ssArea;
+        protected RectTransform rectTransform;
 
-        public AScope(AMap map, Vector2 ssArea)
+        public AScope(RectTransform rect, Vector2 ssArea)
         {
-            this.map = map;
             this.ssArea = ssArea;
+            this.rectTransform = rect;
         }
 
-        public abstract bool IsWithinScope(APin pin);
-        public abstract Vector2 Intersect(APin pin);
+        public abstract bool IsWithinScope(Vector2 pos);
+        public abstract Vector2 Intersect(Vector2 pos);
     }
 }

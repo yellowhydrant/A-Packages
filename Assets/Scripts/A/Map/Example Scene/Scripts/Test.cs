@@ -5,11 +5,14 @@ using UnityEngine;
 
 public class Test : MonoBehaviour
 {
-    [SerializeField] APin pin;
+    public APin pin;
 
     [ContextMenu("Add Pin To Map")]
-    void AddPinToMap()
+    IEnumerator Start()
     {
+        yield return null;
         AMap.instance.AddPin(pin);
     }
+
 }
+

@@ -1,28 +1,53 @@
 ﻿using A.UI;
-using TMPro;
+using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace A.Inventory.UI
 {
     public class AInventorySlotUI : AButton
     {
-        public Image itemIcon;
-        public Image itemRarity;
-        public TMP_Text amountText;
+        public RectTransform rect;
+        public Vector2 gridPosition;
 
-        public AInventoryItem slot;
+        [SerializeField] Image rarity;
+        [SerializeField] Image icon;
+        [SerializeField] Image highlight;
 
-        public void UpdateVisuals()
+        [SerializeField] Sprite defaultIcon;
+        [SerializeField] Sprite defaultRarity;
+        [SerializeField] string amountFormat = "{0}";
+
+        AInventoryItem item;
+
+        protected override void Awake()
         {
-            if(itemIcon != null)
-                itemIcon.sprite = slot.item.sprite;
-            if(itemRarity != null)
-                itemRarity.sprite = null;//change later to be actual sprite
-            if(amountText != null)
-                amountText.text = slot.currentAmount.ToString();
-            if (mainText != null)
-                mainText.text = slot.item.name;
+            rect = transform as RectTransform;
         }
+
+        public void SetItem(AInventoryItem item)
+        {
+            if (!item.HasItem)
+            {
+                icon.sprite = defaultIcon;
+                rarity.sprite = defaultRarity;
+                mainText.text = null;
+                enabled = false;
+            }
+            else
+            {
+                icon.sprite = item.Item.sprite;
+                rarity.sprite = null;//
+                mainText.text = string.Format(amountFormat, item.currentAmount, item.MaxAmount);
+                enabled = true;
+            }
+        }
+
+
+        public void Highlight(bool state)
+        {
+            highlight.gameObject.SetActive(state);
+        }
+
     }
 }
-

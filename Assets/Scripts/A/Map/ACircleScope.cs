@@ -5,22 +5,21 @@ namespace A.Map
     public class ACircleScope : AScope
     {
         float radius;
-        Vector2 center;
+        Vector2 center => rectTransform.rect.center;
 
-        public ACircleScope(AMap map, Vector2 ssArea, Vector2 center, float radius) : base(map, ssArea)
+        public ACircleScope(RectTransform rect, Vector2 ssArea, float radius) : base(rect, ssArea)
         {
             this.radius = radius;
-            this.center = center;
         }
 
-        public override bool IsWithinScope(APin pin)
+        public override bool IsWithinScope(Vector2 pos)
         {
-            return Vector2.Distance(center, map.TransformPointFromWorldToMap(pin.position, ssArea)) < radius;
+            return Vector2.Distance(center, pos) < radius;
         }
 
-        public override Vector2 Intersect(APin pin)
+        public override Vector2 Intersect(Vector2 pos)
         {
-            var pos = map.TransformPointFromWorldToMap(pin.position, ssArea);
+            //var pos = map.TransformPointFromWorldToMap(pin.position, ssArea);
             return AMath.CircleIntersect(center, pos, radius);
         }
     }

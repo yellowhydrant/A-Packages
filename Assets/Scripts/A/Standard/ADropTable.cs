@@ -4,12 +4,12 @@ namespace A
 {
     public abstract class ADropTable<T> : ScriptableObject where T : ScriptableObject
     {
-        public virtual Drop<T>[] Drops { get; }
+        public virtual Drop[] Drops { get; }
 
         [System.Serializable]
-        public abstract class Drop<D>
+        public class Drop
         {
-            public D drop;
+            public T drop;
             public float dropChance;
         }
 

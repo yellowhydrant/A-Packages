@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,7 +7,8 @@ using UnityEditor;
 using UnityEngine.UIElements;
 using UnityEditor.Experimental.GraphView;
 
-namespace A.BehaviourTree {
+namespace A.BehaviourTree
+{
     public class DoubleClickSelection : MouseManipulator {
         double time;
         double doubleClickDuration = 0.3;
@@ -62,3 +64,4 @@ namespace A.BehaviourTree {
         }
     }
 }
+#endif

@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using A.UI;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,3 +40,4 @@ public class AButtonEditor : ButtonEditor
             serializedObject.ApplyModifiedProperties();
     }
 }
+#endif

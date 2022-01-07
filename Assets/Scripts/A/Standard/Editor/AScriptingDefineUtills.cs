@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using UnityEditor;
 
 public static class AScriptingDefineUtils
@@ -31,3 +32,4 @@ public static class AScriptingDefineUtils
         }
     }
 }
+#endif

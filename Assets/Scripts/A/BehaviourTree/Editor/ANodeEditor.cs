@@ -1,4 +1,5 @@
-﻿using A.BehaviourTree.Nodes;
+﻿#if UNITY_EDITOR
+using A.BehaviourTree.Nodes;
 using UnityEditor;
 
 namespace A.BehaviourTree
@@ -12,3 +13,4 @@ namespace A.BehaviourTree
         }
     }
 }
+#endif
