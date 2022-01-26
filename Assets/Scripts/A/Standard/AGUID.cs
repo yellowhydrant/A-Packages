@@ -7,19 +7,21 @@ namespace A
     [CreateAssetMenu(menuName = "A/Standard/GUID")]
     public class AGUID : ScriptableObject
     {
-        public string GUID;
+        [field: SerializeField]
+        public string GUID { get; private set; }
 
         public static implicit operator string(AGUID aguid) => aguid.GUID;
+
+        public void Init(string guid)
+        {
+            if (GUID == null)
+                GUID = guid;
+        }
 
         private void Awake()
         {
             if (GUID == null)
                 GUID = System.Guid.NewGuid().ToString();
-        }
-
-        private void OnValidate()
-        {
-            Awake();
         }
     }
 }

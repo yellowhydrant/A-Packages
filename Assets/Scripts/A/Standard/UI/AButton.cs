@@ -10,5 +10,11 @@ namespace A.UI
     public class AButton : Button
     {
         public TMP_Text mainText;
+        public RectTransform rect => targetGraphic.rectTransform;
+
+        protected override void Awake()
+        {
+            base.Awake();
+        }
     }
 }

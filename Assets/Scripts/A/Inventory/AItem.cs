@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using A.UI;
 using UnityEngine;
 
 namespace A.Inventory
@@ -22,7 +23,7 @@ namespace A.Inventory
 
         public string guid { get; private set; }
 
-        public virtual Tuple<string, Sprite, Action<AInventoryItem>>[] actions { get; protected set; }
+        public virtual CMI<AInventoryItem>[] actions => null;
         public Action<AItem, int> RemoveItemFromInventory;
 
         public enum Rarity

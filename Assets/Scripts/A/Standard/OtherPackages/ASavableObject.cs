@@ -1,4 +1,5 @@
 ﻿using System.Runtime.Serialization;
+using A.Extensions;
 using UnityEngine;
 
 namespace A.Saving
@@ -10,9 +11,13 @@ namespace A.Saving
         public string guid { get; private set; }
         public virtual string SaveSlotSubDirectory { get; }
 
+        [ContextMenu("Fix Guid", true)]
+        bool IsGuidNull() => !guid.IsValidGuid();
+
+        [ContextMenu("Fix Guid", false)]
         protected virtual void Awake()
         {
-            if (guid == null)
+            if (!guid.IsValidGuid())
                 guid = System.Guid.NewGuid().ToString();
         }
 

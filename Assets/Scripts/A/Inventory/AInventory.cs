@@ -1,16 +1,19 @@
 using A.Saving;
+using A.Extensions;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace A.Inventory
 {
-    [CreateAssetMenu(menuName = "A/Inventory/Inventory")]
+    [CreateAssetMenu(menuName = AConstants.AssetMenuRoot + "/" + AInventoryConstants.AssetMenuRoot +  "/Inventory")]
     public class AInventory : ASavableObject
     {
         public Vector2Int dimensions = Vector2Int.one;
         public int Size => dimensions.x * dimensions.y;
-        public bool IsMultiDimensional => dimensions.y > 1;
+        public bool IsSingleSlot => dimensions.x == 1 && dimensions.y == 1;
+        public bool IsVertical => dimensions.x == 1;
+        public bool IsHorizontal => dimensions.y == 1;
         public bool HasItemsInQueue => reservedItems.Count > 0;
 
         public AInventoryItem[] itemsToAddOnInit;
@@ -28,12 +31,17 @@ namespace A.Inventory
             None
         }
 
+        private void OnEnable()
+        {
+            Init();
+        }
+
         public void Init()
         {
             //Guard clause
-            //if (hasInitialized) return;
-            //hasInitialized = true;
-
+#if UNITY_EDITOR
+            if (!UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode) return;
+#endif
             //Initialize all slots with empty AInventoryItem's
             items = new AInventoryItem[Size];
             for (int i = 0; i < items.Length; i++)
@@ -73,7 +81,7 @@ namespace A.Inventory
 
         public void SwapItems(int a, int b)
         {
-            var itemA = items[a];
+            var itemA = items[a].Clone();
             items[a].SetItem(items[b]);
             items[b].SetItem(itemA);
             onSlotChanged?.Invoke(a);
@@ -211,10 +219,7 @@ namespace A.Inventory
             return amount > 0;
         }
 
-        public bool IsSlotEmpty(int index)
-        {
-            return !items[index].HasItem;
-        }
+        public bool IsSlotEmpty(int index) => !items[index].HasItem;
 
         public void SortInventory(SortingCriteria type)
         {
@@ -259,7 +264,6 @@ namespace A.Inventory
 
         public override void ResetValue()
         {
-            //hasInitialized = false;
             Init();
         }
 
@@ -272,10 +276,10 @@ namespace A.Inventory
         {
             var wrapper = JsonUtility.FromJson<Wrapper>(json);
             for (int i = 0; i < wrapper.Items.Length; i++)
-                wrapper.Items[i].SetItem(AItemCache.Items[wrapper.Items[i].itemGuid]);
+                wrapper.Items[i].SetItem(!wrapper.Items[i].itemGuid.IsValidGuid() ? null : AItemCache.Items[wrapper.Items[i].itemGuid], false);
             items = wrapper.Items;
             for (int i = 0; i < wrapper.ReservedItems.Length; i++)
-                wrapper.ReservedItems[i].SetItem(AItemCache.Items[wrapper.ReservedItems[i].itemGuid]);
+                wrapper.ReservedItems[i].SetItem(!wrapper.ReservedItems[i].itemGuid.IsValidGuid() ? null : AItemCache.Items[wrapper.Items[i].itemGuid], false);
             reservedItems = new Queue<AInventoryItem>(wrapper.ReservedItems);
         }
 

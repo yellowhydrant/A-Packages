@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2295036042119497601}
-  - component: {fileID: 5550538508741501632}
+  - component: {fileID: 7202038073084854652}
   m_Layer: 5
-  m_Name: ContextualMenu
+  m_Name: ContextMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,12 +31,12 @@ RectTransform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 960, y: -540}
   m_SizeDelta: {x: 128, y: 28}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &5550538508741501632
+--- !u!114 &7202038073084854652
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -45,9 +45,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2295036042119497606}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4133b244d1c2d4147ab1cb0be11d6467, type: 3}
+  m_Script: {fileID: 11500000, guid: b339671f0fb0348309599694f1e6b537, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rect: {fileID: 0}
   direction: {x: 0, y: -1}
   buttonPrefab: {fileID: 5326531718259380084, guid: 927ead75fece22d4396b23b243e827f5, type: 3}
   separatorPrefab: {fileID: 7128503673561989032, guid: 4fd4d8dc25f195243b531a21c5c12ce5, type: 3}

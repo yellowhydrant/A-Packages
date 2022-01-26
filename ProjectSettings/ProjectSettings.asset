@@ -561,7 +561,7 @@ PlayerSettings:
   webGLThreadsSupport: 0
   webGLDecompressionFallback: 0
   scriptingDefineSymbols:
-    1: STARTER_ASSETS_PACKAGES_CHECKED
+    1: STARTER_ASSETS_PACKAGES_CHECKED;SINGLE_FILE_SAVESLOTS
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}

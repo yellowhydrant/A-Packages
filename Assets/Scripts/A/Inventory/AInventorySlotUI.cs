@@ -7,8 +7,7 @@ namespace A.Inventory.UI
 {
     public class AInventorySlotUI : AButton
     {
-        public RectTransform rect;
-        public Vector2 gridPosition;
+        public bool HasItem { get; private set;}
 
         [SerializeField] Image rarity;
         [SerializeField] Image icon;
@@ -18,12 +17,7 @@ namespace A.Inventory.UI
         [SerializeField] Sprite defaultRarity;
         [SerializeField] string amountFormat = "{0}";
 
-        AInventoryItem item;
-
-        protected override void Awake()
-        {
-            rect = transform as RectTransform;
-        }
+        [SerializeField] AItemRaritySpriteDictionary raritySprites;
 
         public void SetItem(AInventoryItem item)
         {
@@ -32,14 +26,17 @@ namespace A.Inventory.UI
                 icon.sprite = defaultIcon;
                 rarity.sprite = defaultRarity;
                 mainText.text = null;
-                enabled = false;
+                interactable = false;
+                HasItem = false;
+                mainText.text = item.position.ToString();
             }
             else
             {
                 icon.sprite = item.Item.sprite;
-                rarity.sprite = null;//
+                rarity.sprite = raritySprites.values[item.Item.rarity];
                 mainText.text = string.Format(amountFormat, item.currentAmount, item.MaxAmount);
-                enabled = true;
+                interactable = true;
+                HasItem = true;
             }
         }
 
@@ -49,5 +46,9 @@ namespace A.Inventory.UI
             highlight.gameObject.SetActive(state);
         }
 
+        //public void Log(string msg)
+        //{
+        //    print(msg);
+        //}
     }
 }

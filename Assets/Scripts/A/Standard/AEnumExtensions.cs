@@ -8,35 +8,35 @@ namespace A.Extensions
 {
     public static class AEnumExtensions
     {
-        private static void CheckIsEnum<T>(bool withFlags)
+        private static void CheckIsEnum<TEnum>(bool withFlags)
         {
-            if (!typeof(T).IsEnum)
-                throw new ArgumentException(string.Format("Type '{0}' is not an enum", typeof(T).FullName));
-            if (withFlags && !Attribute.IsDefined(typeof(T), typeof(FlagsAttribute)))
-                throw new ArgumentException(string.Format("Type '{0}' doesn't have the 'Flags' attribute", typeof(T).FullName));
+            if (!typeof(TEnum).IsEnum)
+                throw new ArgumentException(string.Format("Type '{0}' is not an enum", typeof(TEnum).FullName));
+            if (withFlags && !Attribute.IsDefined(typeof(TEnum), typeof(FlagsAttribute)))
+                throw new ArgumentException(string.Format("Type '{0}' doesn'TEnum have the 'Flags' attribute", typeof(TEnum).FullName));
         }
 
-        public static bool IsFlagSet<T>(this T value, T flag) where T : struct
+        public static bool IsFlagSet<TEnum>(this TEnum value, TEnum flag) where TEnum : Enum
         {
-            CheckIsEnum<T>(true);
+            CheckIsEnum<TEnum>(true);
             long lValue = Convert.ToInt64(value);
             long lFlag = Convert.ToInt64(flag);
             return (lValue & lFlag) != 0;
         }
 
-        public static IEnumerable<T> GetFlags<T>(this T value) where T : struct
+        public static IEnumerable<TEnum> GetFlags<TEnum>(this TEnum value) where TEnum : Enum
         {
-            CheckIsEnum<T>(true);
-            foreach (T flag in Enum.GetValues(typeof(T)).Cast<T>())
+            CheckIsEnum<TEnum>(true);
+            foreach (TEnum flag in Enum.GetValues(typeof(TEnum)).Cast<TEnum>())
             {
                 if (value.IsFlagSet(flag))
                     yield return flag;
             }
         }
 
-        public static T SetFlags<T>(this T value, T flags, bool on) where T : struct
+        public static TEnum SetFlags<TEnum>(this TEnum value, TEnum flags, bool on) where TEnum : Enum
         {
-            CheckIsEnum<T>(true);
+            CheckIsEnum<TEnum>(true);
             long lValue = Convert.ToInt64(value);
             long lFlag = Convert.ToInt64(flags);
             if (on)
@@ -47,38 +47,38 @@ namespace A.Extensions
             {
                 lValue &= (~lFlag);
             }
-            return (T)Enum.ToObject(typeof(T), lValue);
+            return (TEnum)Enum.ToObject(typeof(TEnum), lValue);
         }
 
-        public static T SetFlags<T>(this T value, T flags) where T : struct
+        public static TEnum SetFlags<TEnum>(this TEnum value, TEnum flags) where TEnum : Enum
         {
             return value.SetFlags(flags, true);
         }
 
-        public static T ClearFlags<T>(this T value, T flags) where T : struct
+        public static TEnum ClearFlags<TEnum>(this TEnum value, TEnum flags) where TEnum : Enum
         {
             return value.SetFlags(flags, false);
         }
 
-        public static T CombineFlags<T>(this IEnumerable<T> flags) where T : struct
+        public static TEnum CombineFlags<TEnum>(this IEnumerable<TEnum> flags) where TEnum : Enum
         {
-            CheckIsEnum<T>(true);
+            CheckIsEnum<TEnum>(true);
             long lValue = 0;
-            foreach (T flag in flags)
+            foreach (TEnum flag in flags)
             {
                 long lFlag = Convert.ToInt64(flag);
                 lValue |= lFlag;
             }
-            return (T)Enum.ToObject(typeof(T), lValue);
+            return (TEnum)Enum.ToObject(typeof(TEnum), lValue);
         }
 
-        public static string GetDescription<T>(this T value) where T : struct
+        public static string GetDescription<TEnum>(this TEnum value) where TEnum : Enum
         {
-            CheckIsEnum<T>(false);
-            string name = Enum.GetName(typeof(T), value);
+            CheckIsEnum<TEnum>(false);
+            string name = Enum.GetName(typeof(TEnum), value);
             if (name != null)
             {
-                FieldInfo field = typeof(T).GetField(name);
+                FieldInfo field = typeof(TEnum).GetField(name);
                 if (field != null)
                 {
                     DescriptionAttribute attr = Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) as DescriptionAttribute;
@@ -91,14 +91,24 @@ namespace A.Extensions
             return null;
         }
 
-        public static int GetMaxValue<T>() where T : struct
+        public static int GetMaxValue<TEnum>() where TEnum : Enum
         {
-            return Enum.GetValues(typeof(T)).Cast<int>().Max();
+            return Enum.GetValues(typeof(TEnum)).Cast<int>().Max();
         }
 
-        public static int GetMinValue<T>() where T : struct
+        public static int GetMinValue<TEnum>() where TEnum : Enum
         {
-            return Enum.GetValues(typeof(T)).Cast<int>().Min();
+            return Enum.GetValues(typeof(TEnum)).Cast<int>().Min();
+        }
+
+        public static string AddWhiteSpace<TEnum>(this TEnum value, char charToReplace = '_') where TEnum : Enum
+        {
+            return value.ToString().Replace(charToReplace, ' ');
+        }
+
+        public static string SplitCamelCase<TEnum>(this TEnum value) where TEnum : Enum
+        {
+            return value.ToString().SplitCamelCase();
         }
     }
 }

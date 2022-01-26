@@ -35,15 +35,24 @@ namespace A.Inventory
             Item = itemToStore;
             currentAmount = amount;
         }
-        public void SetItem(AItem item)
+
+        private AInventoryItem()
+        {
+
+        }
+
+        public void SetItem(AItem item, bool resetValues = true)
         {
             Item = item;
             if (item == default(AItem))
                 itemGuid = null;
             else
                 itemGuid = item.guid;
-            currentAmount = 0;
-            useCount = 0;
+            if (resetValues)
+            {
+                currentAmount = 0;
+                useCount = 0;
+            }
         }
 
         public void SetItem(AInventoryItem invItem)
@@ -58,6 +67,13 @@ namespace A.Inventory
             SetItem(default(AItem));
             currentAmount = 0;
             useCount = 0;
+        }
+
+        public AInventoryItem Clone()
+        {
+            var newItem = new AInventoryItem {};
+            newItem.SetItem(this);
+            return newItem;
         }
     }
 }

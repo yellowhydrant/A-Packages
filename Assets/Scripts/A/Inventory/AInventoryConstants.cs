@@ -5,5 +5,6 @@ using UnityEngine;
 public static class AInventoryConstants
 {
     public const string ComponentMenuRoot = "Inventory";
-    public static readonly string[] FoldersContainingSavableObjects = new string[] { "Assets/ScriptableObjects" };
+    public const string AssetMenuRoot = "Inventory";
+    public static readonly string[] FoldersContainingSavableObjects = new string[] { "Assets" };//"Assets/ScriptableObjects/Items", "Assets/ScriptableObjects/Inventories" };
 }

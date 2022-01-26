@@ -90,6 +90,12 @@ namespace A.Saving
             JsonUtility.FromJsonOverwrite(json, data);
         }
 
+        public static void DeleteData(int slot)
+        {
+            var path = GetDirectory(slot, null);
+            Directory.Delete(path, true);
+        }
+
         public static string LoadData(int slot, string fileSaveDirectory, string fileName)
         {
             var path = GetPath(slot, fileSaveDirectory, fileName);
@@ -109,12 +115,26 @@ namespace A.Saving
             }
         }
 
-        static string Encrypt(string msg) => System.Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(msg));
-        static string Decrypt(string msg) => System.Text.Encoding.UTF8.GetString(System.Convert.FromBase64String(msg));
+        static string Encrypt(string msg)
+        {
+            if (Obfuscate)
+                return System.Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(msg));
+            else
+                return msg;
+        }
+        static string Decrypt(string msg)
+        {
+            if (Obfuscate)
+                return System.Text.Encoding.UTF8.GetString(System.Convert.FromBase64String(msg));
+            else
+                return msg;
+        }
 
         static string GetDirectory(int slot, string fileSaveDirectory)
         {
-            var path = Path.Combine(Application.persistentDataPath, ASavingConstants.SaveSlotsFolderName, string.Format(ASavingConstants.SaveSlotFolderName, slot.ToString()), fileSaveDirectory);
+            var path = Path.Combine(Application.persistentDataPath, ASavingConstants.SaveSlotsFolderName, string.Format(ASavingConstants.SaveSlotFolderName, slot.ToString()));
+            if (!string.IsNullOrEmpty(fileSaveDirectory))
+                path = Path.Combine(path, fileSaveDirectory);
             Directory.CreateDirectory(path);
             return path;
 

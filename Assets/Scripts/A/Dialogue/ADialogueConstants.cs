@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using A.Editor;
 using UnityEngine;
 
 namespace A.Dialogue
@@ -17,7 +18,7 @@ namespace A.Dialogue
         const string StyleSheetLocalPath = "Editor/DialogueGraphEditorStyle.uss";
         const string VisualTreeAssetLocalPath = "Editor/DialogueGraphEditor.uxml";
 
-        static string RootDirectory => AEditorUtills.GetPathToThisFile<ADialogueConstants>(nameof(ADialogueConstants));
+        static string RootDirectory => AEditorUtility.GetPathToThisFile<ADialogueConstants>(nameof(ADialogueConstants));
 #endif
     }
 }

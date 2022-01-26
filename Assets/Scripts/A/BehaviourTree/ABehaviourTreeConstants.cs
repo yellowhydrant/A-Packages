@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using A.Editor;
 using UnityEngine;
 
 namespace A.BehaviourTree
@@ -22,7 +23,7 @@ namespace A.BehaviourTree
         const string NodeStyleSheetLocalPath = "Editor/UI/NodeViewStyle.uss";
         const string NodeVisualTreeAssetLocalPath = "Editor/UI/NodeView.uxml";
 
-        static string RootDirectory => AEditorUtills.GetPathToThisFile<ABehaviourTreeConstants>(nameof(ABehaviourTreeConstants));
+        static string RootDirectory => AEditorUtility.GetPathToThisFile<ABehaviourTreeConstants>(nameof(ABehaviourTreeConstants));
 #endif
     }
 }

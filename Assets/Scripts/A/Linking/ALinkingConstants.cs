@@ -15,7 +15,7 @@ namespace A.Linking
         const string StyleSheetLocalPath = "Editor/LinkEditor.uss";
         const string VisualTreeAssetLocalPath = "Editor/LinkEditor.uxml";
 
-        static string RootDirectory => AEditorUtills.GetPathToThisFile<ALinkingConstants>(nameof(ALinkingConstants));
+        static string RootDirectory => A.Editor.AEditorUtility.GetPathToThisFile<ALinkingConstants>(nameof(ALinkingConstants));
 #endif
     }
 }

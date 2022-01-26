@@ -123,13 +123,13 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   mainText: {fileID: 9051994770881467582}
-  gridPosition: {x: 0, y: 0}
   rarity: {fileID: 9051994770369929572}
   icon: {fileID: 9051994770804363162}
   highlight: {fileID: 9051994770649122920}
   defaultIcon: {fileID: 21300000, guid: 28dffee3b9293de47a95e7b290f27984, type: 3}
   defaultRarity: {fileID: 21300000, guid: d4860e56583023e4d9b030e44548a0b5, type: 3}
   amountFormat: '{0}'
+  raritySprites: {fileID: 11400000, guid: 6be5914ddf6124c09ba67c6108d450e8, type: 2}
 --- !u!1 &9051994770649122926
 GameObject:
   m_ObjectHideFlags: 0
