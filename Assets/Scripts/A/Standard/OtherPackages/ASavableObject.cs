@@ -8,18 +8,17 @@ namespace A.Saving
     public abstract class ASavableObject : ScriptableObject
     {
         [field: SerializeField, HideInInspector]
-        public string guid { get; private set; }
-        public virtual string SaveSlotSubDirectory { get; }
+        public string guid { get; } = System.Guid.NewGuid().ToString();
+        public virtual string DataSlotSubDirectory { get; }
 
-        [ContextMenu("Fix Guid", true)]
-        bool IsGuidNull() => !guid.IsValidGuid();
+        //[ContextMenu("Fix Guid", true)]
+        //bool IsGuidBroken() => !guid.IsValidGuid();
 
-        [ContextMenu("Fix Guid", false)]
-        protected virtual void Awake()
-        {
-            if (!guid.IsValidGuid())
-                guid = System.Guid.NewGuid().ToString();
-        }
+        //[ContextMenu("Fix Guid", false)]
+        //protected void FixGuid()
+        //{
+        //    guid = System.Guid.NewGuid().ToString();
+        //}
 
         public abstract void ResetValue();
         public abstract string ToJson();

@@ -22,7 +22,7 @@ namespace A.Inventory
         AInventoryItem[] items;
         Queue<AInventoryItem> reservedItems = new Queue<AInventoryItem>();
 
-        public override string SaveSlotSubDirectory => "";
+        public override string DataSlotSubDirectory => "";
         public System.Action<int> onSlotChanged;
 
         //TODO: Add custom sorting

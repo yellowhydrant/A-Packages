@@ -6,22 +6,15 @@ namespace A.Saving.Values
     {
         public T[] runtimeValue = System.Array.Empty<T>();
         [field: SerializeField]
-        public T[] DefaultValue { get; private set; }
+        public T[] DefaultValue { get; private set; } = System.Array.Empty<T>();
 
-        public override string SaveSlotSubDirectory => ASavableValueConstants.SaveSlotSubDirectory;
+        public override string DataSlotSubDirectory => ASavableValueConstants.SaveSlotSubDirectory;
 
         public static implicit operator T[](ASavableArrayValue<T> value) => value.runtimeValue;
 
         internal ASavableArrayValue()
         {
 
-        }
-
-        protected override void Awake()
-        {
-            base.Awake();
-            if (DefaultValue == null)
-                DefaultValue = System.Array.Empty<T>();
         }
 
         public override void ResetValue()

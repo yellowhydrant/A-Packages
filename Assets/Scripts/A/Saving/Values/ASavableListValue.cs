@@ -7,22 +7,15 @@ namespace A.Saving.Values
     {
         public List<T> runtimeValue = new List<T>();
         [field: SerializeField]
-        public List<T> DefaultValue { get; private set; }
+        public List<T> DefaultValue { get; private set; } = new List<T>();
 
-        public override string SaveSlotSubDirectory => ASavableValueConstants.SaveSlotSubDirectory;
+        public override string DataSlotSubDirectory => ASavableValueConstants.SaveSlotSubDirectory;
 
         public static implicit operator List<T>(ASavableListValue<T> value) => value.runtimeValue;
 
         internal ASavableListValue()
         {
 
-        }
-
-        protected override void Awake()
-        {
-            base.Awake();
-            if (DefaultValue == null)
-                DefaultValue = new List<T>();
         }
 
         public override void ResetValue()

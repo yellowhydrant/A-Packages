@@ -1,0 +1,43 @@
+VisualElement {
+    background-color: rgb(56, 56, 56);
+    color: rgb(196, 196, 196);
+    -unity-font: url('Library/unity default resources');
+    font-size: 12px;
+    white-space: normal;
+}
+
+.field {
+    flex-direction: row;
+    max-height: 18px;
+    margin-left: 1px;
+    margin-right: 1px;
+    margin-top: 1px;
+    margin-bottom: 1px;
+}
+
+.field > Label {
+    -unity-text-align: lower-left;
+    width: 20%;
+    min-width: auto;
+}
+
+.field > TextField {
+    flex-direction: row;
+    flex-grow: 1;
+    flex-shrink: 1;
+    white-space: nowrap;
+    color: rgb(210, 210, 210);
+}
+
+.field > TextField > Label {
+    min-width: 14px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+}
+
+.field > #unity-text-input {
+    width: 80%;
+}
+
+.unity-list-view {
+}

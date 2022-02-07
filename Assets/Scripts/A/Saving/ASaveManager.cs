@@ -1,4 +1,4 @@
-﻿//#define SINGLE_FILE_SAVESLOTS //TODO: Make it so if defined the files will be saved in saves instead of saves/saveslots
+﻿#undef SINGLE_FILE_SAVESLOTS //TODO: Make it so if defined the files will be saved in saves instead of saves/saveslots
 using System.Linq;
 using UnityEngine;
 using System.Collections.Generic;
@@ -18,20 +18,16 @@ namespace A.Saving
     {
         [SerializeField] ASavableObject[] cachedValues;
         static ASavableObject[] Values = System.Array.Empty<ASavableObject>();
+        static Dictionary<string, ASavableObject> ValueLookupDictionary;
 
-        [SerializeField][Range(0, MaxSaveSlotAmount)] int slot;
+        [SerializeField][Range(0, MaxDataSlotAmount)] int slot;
 
-        const int MaxSaveSlotAmount = 10;
+        const int MaxDataSlotAmount = 10;
 
-        const string ResourcesName = "SaveManager";
+        const string ResourcesFileName = "SaveManager";
 
 #if SINGLE_FILE_SAVESLOTS
-        const string SaveSlotName = "Save{0}";
-
-        class Wrapper
-        {
-            public Data[] data;
-        }
+        const string DataSlotName = "Save{0}";
 
         class Data
         {
@@ -49,7 +45,7 @@ namespace A.Saving
         {
             var path = System.IO.Path.Combine(RootDirectory, nameof(Resources));
             System.IO.Directory.CreateDirectory(path);
-            path = System.IO.Path.Combine(path, $"{ResourcesName}.asset");
+            path = System.IO.Path.Combine(path, $"{ResourcesFileName}.asset");
             var manager = AssetDatabase.LoadAssetAtPath<ASaveManager>(path);
             if (manager == null)
             {
@@ -88,8 +84,10 @@ namespace A.Saving
 #endif
         static void Init()
         {
-            var manager = Resources.Load<ASaveManager>(ResourcesName);
+            var manager = Resources.Load<ASaveManager>(ResourcesFileName);
+            //Object.DontDestroyOnLoad(manager);//Need to test if this is neccesary
             Values = manager.cachedValues;
+            ValueLookupDictionary = Values.ToDictionary((v) => v.guid);
         }
 
         [MyBox.ButtonMethod]
@@ -102,17 +100,15 @@ namespace A.Saving
         public static void SaveAllObjects(int slot = 0)
         {
 #if SINGLE_FILE_SAVESLOTS
-            var wrapper = new Wrapper();
-            wrapper.data = new Data[Values.Length];
+            var data = new Data[Values.Length];
             for (int i = 0; i < Values.Length; i++)
-            {
-                wrapper.data[i] = new Data { json = Values[i].ToJson(), guid = Values[i].guid };
-            }
-            ASaveUtility.SaveData(JsonUtility.ToJson(wrapper), slot, null, string.Format(SaveSlotName, slot));
+                data[i] = new Data { json = Values[i].ToJson(), guid = Values[i].guid };
+
+            ASaveUtility.SaveEnumerable(data, slot, null, string.Format(DataSlotName, slot));
 #else
             for (int i = 0; i < Values.Length; i++)
             {
-                ASaveUtility.SaveData(Values[i].ToJson(), slot, Values[i].SaveSlotSubDirectory, Values[i].guid);
+                ASaveUtility.SaveJson(Values[i].ToJson(), slot, Values[i].DataSlotSubDirectory, Values[i].guid);
             }
 #endif
         }
@@ -126,26 +122,25 @@ namespace A.Saving
         public static void LoadAllObjects(int slot = 0)
         {
 #if SINGLE_FILE_SAVESLOTS
-            var wrapper = JsonUtility.FromJson<Wrapper>(ASaveUtility.LoadData(slot, null, string.Format(SaveSlotName, slot)));
-            for (int i = 0; i < wrapper.data.Length; i++)
+            var data = ASaveUtility.LoadEnumerable<Data>(slot, null, string.Format(DataSlotName, slot));
+            foreach (var item in data)
             {
-                var val = Values.FirstOrDefault((v) => v.guid == wrapper.data[i].guid);
-                if(val != null)
-                    val.FromJson(wrapper.data[i].json);
+                if(ValueLookupDictionary.TryGetValue(item.guid, out var value))
+                    value.FromJson(item.json);
             }
 #else
             for (int i = 0; i < Values.Length; i++)
             {
-                Values[i].FromJson(ASaveUtility.LoadData(slot, Values[i].SaveSlotSubDirectory, Values[i].guid));
+                Values[i].FromJson(ASaveUtility.LoadJson(slot, Values[i].DataSlotSubDirectory, Values[i].guid));
             }
 #endif
         }
 
         [MyBox.ButtonMethod]
-        void Delete() => DeleteSaveSlot(slot);
-        public static void DeleteSaveSlot(int slot)
+        void Delete() => DeleteDataSlot(slot);
+        public static void DeleteDataSlot(int slot)
         {
-            ASaveUtility.DeleteData(slot);
+            ASaveUtility.DeleteDataSlot(slot);
         }
 
         [MyBox.ButtonMethod]
@@ -163,27 +158,4 @@ namespace A.Saving
         }
     }
 }
-
-//Implementation of single file saving
-
-//void Save(int slot = 0)
-//{
-//    var wrapper = new Wrapper();
-//    wrapper.data = new Data[values.Length];
-//    for (int i = 0; i < values.Length; i++)
-//    {
-//        wrapper.data[i] = new Data { json = values[i].ToJson(), guid = values[i].guid };
-//    }
-//    ASaveUtility.SaveData(wrapper, slot, "", string.Format(SaveSlotName, slot));
-//}
-
-//void Load(int slot = 0)
-//{
-//    var wrapper = JsonUtility.FromJson<Wrapper>(ASaveUtility.LoadData(slot, "", string.Format(SaveSlotName, slot)));
-//    for (int i = 0; i < wrapper.data.Length; i++)
-//    {
-//        var val = values.First((v) => v.guid == wrapper.data[i].guid);
-//        val.FromJson(wrapper.data[i].json);
-//    }
-//}
 

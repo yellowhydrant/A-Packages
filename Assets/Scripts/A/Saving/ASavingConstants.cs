@@ -4,8 +4,8 @@ using UnityEngine;
 
 public static class ASavingConstants
 {
-    public const string SaveSlotsFolderName = "Saves";
-    public const string SaveSlotFolderName = "SaveSlot{0}";
-    public const string SaveFileExtension = ".savedata";
+    public const string DataSlotsFolderName = "Saves";
+    public const string DataSlotFolderNameFormat = "SaveSlot{0}";
+    public const string DataFileExtension = ".savedata";
     public static readonly string[] FoldersContainingSavableObjects = new string[] { "Assets" };//"Assets/ScriptableObjects" };
 }

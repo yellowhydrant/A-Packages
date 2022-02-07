@@ -9,7 +9,7 @@ namespace A.Saving.Values
         [field: SerializeField]
         public T DefaultValue { get; private set; }
 
-        public override string SaveSlotSubDirectory => ASavableValueConstants.SaveSlotSubDirectory;
+        public override string DataSlotSubDirectory => ASavableValueConstants.SaveSlotSubDirectory;
 
         public static implicit operator T(ASavableSimpleValue<T> value) => value.runtimeValue;
 
