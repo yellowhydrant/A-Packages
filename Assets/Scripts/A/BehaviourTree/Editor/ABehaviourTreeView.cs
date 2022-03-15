@@ -16,24 +16,9 @@ namespace A.BehaviourTree {
         public Action<ANodeView> OnNodeSelected;
         public new class UxmlFactory : UxmlFactory<ABehaviourTreeView, GraphView.UxmlTraits> { }
         ABehaviourTree tree;
-        BehaviourTreeSettings settings;
 
-        public struct ScriptTemplate {
-            public TextAsset templateFile;
-            public string defaultFileName;
-            public string subFolder;
-        }
-
-        public ScriptTemplate[] scriptFileAssets = {
-            
-            new ScriptTemplate{ templateFile=BehaviourTreeSettings.GetOrCreateSettings().scriptTemplateActionNode, defaultFileName="NewActionNode.cs", subFolder="Actions" },
-            new ScriptTemplate{ templateFile=BehaviourTreeSettings.GetOrCreateSettings().scriptTemplateCompositeNode, defaultFileName="NewCompositeNode.cs", subFolder="Composites" },
-            new ScriptTemplate{ templateFile=BehaviourTreeSettings.GetOrCreateSettings().scriptTemplateDecoratorNode, defaultFileName="NewDecoratorNode.cs", subFolder="Decorators" },
-        };
-
-        public ABehaviourTreeView() {
-            settings = BehaviourTreeSettings.GetOrCreateSettings();
-
+        public ABehaviourTreeView() 
+        {
             Insert(0, new GridBackground());
 
             this.AddManipulator(new ContentZoomer());
@@ -42,22 +27,25 @@ namespace A.BehaviourTree {
             this.AddManipulator(new SelectionDragger());
             this.AddManipulator(new RectangleSelector());
 
-            var styleSheet = settings.behaviourTreeStyle;
+            var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(ABehaviourTreeConstants.TreeStyleSheetPath);
             styleSheets.Add(styleSheet);
 
             Undo.undoRedoPerformed += OnUndoRedo;
         }
 
-        private void OnUndoRedo() {
+        private void OnUndoRedo() 
+        {
             PopulateView(tree);
             AssetDatabase.SaveAssets();
         }
 
-        public ANodeView FindNodeView(ANode node) {
+        public ANodeView FindNodeView(ANode node) 
+        {
             return GetNodeByGuid(node.guid) as ANodeView;
         }
 
-        internal void PopulateView(ABehaviourTree tree) {
+        internal void PopulateView(ABehaviourTree tree) 
+        {
             this.tree = tree;
 
             graphViewChanged -= OnGraphViewChanged;
@@ -89,13 +77,15 @@ namespace A.BehaviourTree {
             });
         }
 
-        public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter) {
+        public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter) 
+        {
             return ports.ToList().Where(endPort =>
             endPort.direction != startPort.direction &&
             endPort.node != startPort.node).ToList();
         }
 
-        private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange) {
+        private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange) 
+        {
             if (graphViewChange.elementsToRemove != null) {
                 graphViewChange.elementsToRemove.ForEach(elem => {
                     ANodeView nodeView = elem as ANodeView;
@@ -128,16 +118,8 @@ namespace A.BehaviourTree {
             return graphViewChange;
         }
 
-        public override void BuildContextualMenu(ContextualMenuPopulateEvent evt) {
-
-            //base.BuildContextualMenu(evt);
-
-            // New script functions
-            //evt.menu.AppendAction($"Create Script.../New Action Node", (a) => CreateNewScript(scriptFileAssets[0]));
-            //evt.menu.AppendAction($"Create Script.../New Composite Node", (a) => CreateNewScript(scriptFileAssets[1]));
-            //evt.menu.AppendAction($"Create Script.../New Decorator Node", (a) => CreateNewScript(scriptFileAssets[2]));
-            //evt.menu.AppendSeparator();
-
+        public override void BuildContextualMenu(ContextualMenuPopulateEvent evt) 
+        {
             Vector2 nodePosition = this.ChangeCoordinatesTo(contentViewContainer, evt.localMousePosition);
             
             AppendMenuFor<AActionNode>();
@@ -166,44 +148,22 @@ namespace A.BehaviourTree {
             }
         }
 
-        void SelectFolder(string path) {
-            // https://forum.unity.com/threads/selecting-a-folder-in-the-project-via-button-in-editor-window.355357/
-            // Check the path has no '/' at the end, if it does remove it,
-            // Obviously in this example it doesn't but it might
-            // if your getting the path some other way.
-
-            if (path[path.Length - 1] == '/')
-                path = path.Substring(0, path.Length - 1);
-
-            // Load object
-            UnityEngine.Object obj = AssetDatabase.LoadAssetAtPath(path, typeof(UnityEngine.Object));
-
-            // Select the object in the project folder
-            Selection.activeObject = obj;
-
-            // Also flash the folder yellow to highlight it
-            EditorGUIUtility.PingObject(obj);
-        }
-
-        void CreateNewScript(ScriptTemplate template) {
-            SelectFolder($"{settings.newNodeBasePath}/{template.subFolder}");
-            var templatePath = AssetDatabase.GetAssetPath(template.templateFile);
-            ProjectWindowUtil.CreateScriptAssetFromTemplateFile(templatePath, template.defaultFileName);
-        }
-
-        void CreateNode(System.Type type, Vector2 position) {
+        void CreateNode(System.Type type, Vector2 position) 
+        {
             ANode node = tree.CreateNode(type);
             node.position = position;
             CreateNodeView(node);
         }
 
-        void CreateNodeView(ANode node) {
+        void CreateNodeView(ANode node) 
+        {
             ANodeView nodeView = new ANodeView(node);
             nodeView.OnNodeSelected = OnNodeSelected;
             AddElement(nodeView);
         }
 
-        public void UpdateNodeStates() {
+        public void UpdateNodeStates() 
+        {
             nodes.ForEach(n => {
                 ANodeView view = n as ANodeView;
                 view.UpdateState();

@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7663574978619170006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3404f6becd21c104b87f1131ff045799, type: 3}
+  m_Name: Sleepy Jojo
+  m_EditorClassIdentifier: 
+  guid: 25be403b-1c36-4c9f-bb90-52483acd382a
+  sprite: {fileID: 0}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c19b42fdf76f7c40ac8200d0a05d97a, type: 3}
+  m_Name: New SpeakerRegister
+  m_EditorClassIdentifier: 
+  speakers_:
+  - {fileID: -7663574978619170006}

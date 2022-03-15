@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Linq;
+using System.Reflection;
 
 namespace A.Extensions
 {
@@ -29,6 +31,17 @@ namespace A.Extensions
         public static bool IsCollectionType(this Type type)
         {
             return type != typeof(string) && type.GetInterface(nameof(IEnumerable)) != null;
+        }
+
+        public static bool IsAutoProperty(this PropertyInfo prop)
+        {
+            return prop.DeclaringType.GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
+                                     .Any(f => f.Name.Contains("<" + prop.Name + ">"));
+        }
+
+        public static FieldInfo GetBackingField(this PropertyInfo prop)
+        {
+            return prop.DeclaringType.GetFields(BindingFlags.NonPublic | BindingFlags.Instance).First(f => f.Name.Contains("<" + prop.Name + ">"));
         }
     }
 }

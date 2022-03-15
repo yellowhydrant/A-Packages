@@ -8,20 +8,20 @@ namespace A
     public class AGUID : ScriptableObject
     {
         [field: SerializeField]
-        public string GUID { get; private set; }
+        public string GUID { get; private set; } = System.Guid.NewGuid().ToString();
 
         public static implicit operator string(AGUID aguid) => aguid.GUID;
 
-        public void Init(string guid)
-        {
-            if (GUID == null)
-                GUID = guid;
-        }
+        //public void Init(string guid)
+        //{
+        //    if (GUID == null)
+        //        GUID = guid;
+        //}
 
-        private void Awake()
-        {
-            if (GUID == null)
-                GUID = System.Guid.NewGuid().ToString();
-        }
+        //private void Awake()
+        //{
+        //    if (GUID == null)
+        //        GUID = System.Guid.NewGuid().ToString();
+        //}
     }
 }

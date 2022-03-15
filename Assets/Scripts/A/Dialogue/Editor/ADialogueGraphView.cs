@@ -248,6 +248,7 @@ namespace A.Dialogue.Editor
                     }
                 });
                 container.style.maxWidth = 320f;
+                container.style.backgroundColor = new Color(63 / 256f, 63 / 256f, 63 / 256f, 205 / 256f);
                 node.mainContainer.Add(container);
             }
             else
@@ -282,7 +283,7 @@ namespace A.Dialogue.Editor
             var port = GeneratePort(node, Direction.Output);
             var num = node.outputContainer.Query("connector").ToList().Count;
             if (num == 0)
-                port.portName = portName == null ? ADialogueGraph.Continue : portName;
+                port.portName = portName == null ? ADialogueGraph.GotoNext : portName;
             else
                 port.portName = portName == null ? $"Choice {num}" : portName;
             port.contentContainer.Remove(port.Q<Label>("type"));
@@ -313,7 +314,9 @@ namespace A.Dialogue.Editor
             }
             else
             {
-                var choiceTextField = new IntegerField() { name = string.Empty, value = int.Parse(Regex.Replace(port.portName, "[^0-9]", "")) };
+                //var numbersInString = Regex.Replace(port.portName, "[^0-9]", "");
+                float.TryParse(port.portName, out var result);
+                var choiceTextField = new FloatField() { name = string.Empty, value = result};
                 choiceTextField.RegisterValueChangedCallback((c) =>
                 {
                     port.portName = c.newValue.ToString();
@@ -341,20 +344,21 @@ namespace A.Dialogue.Editor
             var targetEdges = edges.ToList().Where((x) => x.output.portName == port.portName && x.output.node == port.node);
 
             //Check if any and get first edge
-            if (!targetEdges.Any()) return;
-            var edge = targetEdges.First();
+            if (targetEdges.Any())
+            {
+                var edge = targetEdges.First();
 
-            //Disconnect ports and remove edge from graphview
-            edge.output.Disconnect(edge);
-            edge.input.Disconnect(edge);
-            RemoveElement(edge);
+                //Disconnect ports and remove edge from graphview
+                edge.output.Disconnect(edge);
+                edge.input.Disconnect(edge);
+                RemoveElement(edge);
 
-            //Remove links connected to this port
-            var parentNode = edge.output.node as ADialogueNode;
-            var childNode = edge.input.node as ADialogueNode;
-            var linkToRemove = dialogueGraph.nodeLinks.First((link) => link.baseGUID == parentNode.GUID && link.targetGUID == childNode.GUID);
-            dialogueGraph.nodeLinks.Remove(linkToRemove);
-
+                //Remove links connected to this port
+                var parentNode = edge.output.node as ADialogueNode;
+                var childNode = edge.input.node as ADialogueNode;
+                var linkToRemove = dialogueGraph.nodeLinks.First((link) => link.baseGUID == parentNode.GUID && link.targetGUID == childNode.GUID);
+                dialogueGraph.nodeLinks.Remove(linkToRemove);
+            }
             //Remove port from node.outputContainer
             node.outputContainer.Remove(port);
 

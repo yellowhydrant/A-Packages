@@ -15,6 +15,8 @@ namespace A.UI
         protected override void Awake()
         {
             base.Awake();
+            if(mainText == null)
+                mainText = GetComponentInChildren<TMP_Text>();
         }
     }
 }

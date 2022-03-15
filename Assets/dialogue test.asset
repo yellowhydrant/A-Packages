@@ -1,0 +1,169 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7055800179268788027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36df0073345b24770be1507befaf2893, type: 3}
+  m_Name: New Dialogue Graph_Node2
+  m_EditorClassIdentifier: 
+  speaker_: {fileID: -7663574978619170006, guid: 1a560594c3961f24abf1d56e44c93ef8, type: 2}
+  speakerDialogue: What is your name?
+  nodePosition: {x: 1052, y: -48}
+  GUID: f878c338d0ccf754ca8db597b9b471e7
+--- !u!114 &-91025858497451733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36df0073345b24770be1507befaf2893, type: 3}
+  m_Name: New Dialogue Graph_Node6
+  m_EditorClassIdentifier: 
+  speaker_: {fileID: -7663574978619170006, guid: 1a560594c3961f24abf1d56e44c93ef8, type: 2}
+  speakerDialogue: Sleep is really my <color=blue>passion</color>. It's like going
+    to a <color=red>HOT</color> <color=yellow>sauna</color>.
+  nodePosition: {x: 747, y: -48}
+  GUID: bff3ba9951cb84442a93ebc536a348ea
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6d726050415941ee87b715e47f2a60d, type: 3}
+  m_Name: dialogue test
+  m_EditorClassIdentifier: 
+  nodeData:
+  - {fileID: 8993607514667221771}
+  - {fileID: 4040404690557096123}
+  - {fileID: -7055800179268788027}
+  - {fileID: 2170598759796051549}
+  - {fileID: 8845049510715499604}
+  - {fileID: 7542958251135289738}
+  - {fileID: -91025858497451733}
+  nodeLinks:
+  - baseGUID: b5661c39766fae04c9d063eec3a46fa8
+    portName: next
+    targetGUID: 5a40547cd6c7ea24f9b119f637b78d19
+  - baseGUID: 5a40547cd6c7ea24f9b119f637b78d19
+    portName: gotonext
+    targetGUID: 615398b7f7d271a47b39fa7de9164382
+  - baseGUID: f878c338d0ccf754ca8db597b9b471e7
+    portName: Woke Pendragon
+    targetGUID: 3f3b933ea99b6554da8e6080095cfeef
+  - baseGUID: f878c338d0ccf754ca8db597b9b471e7
+    portName: Flying Stone
+    targetGUID: 3f3b933ea99b6554da8e6080095cfeef
+  - baseGUID: f878c338d0ccf754ca8db597b9b471e7
+    portName: Wishful Thinker
+    targetGUID: 3f3b933ea99b6554da8e6080095cfeef
+  - baseGUID: 3f3b933ea99b6554da8e6080095cfeef
+    portName: Can you please stop shouting?!
+    targetGUID: 21e685d61f9b36d419710320c0efd935
+  - baseGUID: 3f3b933ea99b6554da8e6080095cfeef
+    portName: ...
+    targetGUID: 34ed82aa02d449c468c1f612a0ec93f0
+  - baseGUID: 21e685d61f9b36d419710320c0efd935
+    portName: gotonext
+    targetGUID: 34ed82aa02d449c468c1f612a0ec93f0
+  - baseGUID: bff3ba9951cb84442a93ebc536a348ea
+    portName: gotonext
+    targetGUID: f878c338d0ccf754ca8db597b9b471e7
+  - baseGUID: 615398b7f7d271a47b39fa7de9164382
+    portName: gotonext
+    targetGUID: bff3ba9951cb84442a93ebc536a348ea
+  exposedProperties: []
+  register: {fileID: 11400000, guid: 1a560594c3961f24abf1d56e44c93ef8, type: 2}
+--- !u!114 &2170598759796051549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36df0073345b24770be1507befaf2893, type: 3}
+  m_Name: New Dialogue Graph_Node3
+  m_EditorClassIdentifier: 
+  speaker_: {fileID: -7663574978619170006, guid: 1a560594c3961f24abf1d56e44c93ef8, type: 2}
+  speakerDialogue: 'Nice name! '
+  nodePosition: {x: 1362, y: -25}
+  GUID: 3f3b933ea99b6554da8e6080095cfeef
+--- !u!114 &4040404690557096123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36df0073345b24770be1507befaf2893, type: 3}
+  m_Name: New Dialogue Graph_Node1
+  m_EditorClassIdentifier: 
+  speaker_: {fileID: -7663574978619170006, guid: 1a560594c3961f24abf1d56e44c93ef8, type: 2}
+  speakerDialogue: My name is sleepy jojo!
+  nodePosition: {x: 436, y: -48}
+  GUID: 615398b7f7d271a47b39fa7de9164382
+--- !u!114 &7542958251135289738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36df0073345b24770be1507befaf2893, type: 3}
+  m_Name: New Dialogue Graph_Node5
+  m_EditorClassIdentifier: 
+  speaker_: {fileID: -7663574978619170006, guid: 1a560594c3961f24abf1d56e44c93ef8, type: 2}
+  speakerDialogue: It was nice too meet you! Bye!
+  nodePosition: {x: 1731, y: -136}
+  GUID: 34ed82aa02d449c468c1f612a0ec93f0
+--- !u!114 &8845049510715499604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36df0073345b24770be1507befaf2893, type: 3}
+  m_Name: New Dialogue Graph_Node4
+  m_EditorClassIdentifier: 
+  speaker_: {fileID: -7663574978619170006, guid: 1a560594c3961f24abf1d56e44c93ef8, type: 2}
+  speakerDialogue: I'm sorry. My name is may be sleepy jojo, but I haven't slept
+    in the last few years because I'm too energized...
+  nodePosition: {x: 1731, y: 29}
+  GUID: 21e685d61f9b36d419710320c0efd935
+--- !u!114 &8993607514667221771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36df0073345b24770be1507befaf2893, type: 3}
+  m_Name: New Dialogue Graph_Node0
+  m_EditorClassIdentifier: 
+  speaker_: {fileID: -7663574978619170006, guid: 1a560594c3961f24abf1d56e44c93ef8, type: 2}
+  speakerDialogue: Hello!
+  nodePosition: {x: 140, y: -48}
+  GUID: 5a40547cd6c7ea24f9b119f637b78d19

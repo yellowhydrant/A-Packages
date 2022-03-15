@@ -18,7 +18,7 @@ namespace A.BehaviourTree
         public Port input;
         public Port output;
 
-        public ANodeView(ANode node) : base(AssetDatabase.GetAssetPath(BehaviourTreeSettings.GetOrCreateSettings().nodeXml)) {
+        public ANodeView(ANode node) : base(ABehaviourTreeConstants.NodeVisualTreeAssetPath) {
             this.node = node;
             this.node.name = node.GetType().Name.Substring(1);
             this.title = node.name.Replace("(Clone)", "").Replace("Node", "");

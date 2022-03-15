@@ -1,0 +1,94 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8778926738266729114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a5134d9de14153468b48928d3e7359a, type: 3}
+  m_Name: Wait
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 1c16c9423bd3a3c4fa7f046589dd53d0
+  position: {x: -236, y: 1}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+  description: 
+  drawGizmos: 0
+  duration: 1
+--- !u!114 &-8373949754625244323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2932073b8a6c3b34391576c45d359457, type: 3}
+  m_Name: Parallel
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 5d43ead9ddbbc294fa2ced4e51c30d00
+  position: {x: -236, y: -124}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+  description: 
+  drawGizmos: 0
+  children:
+  - {fileID: -8778926738266729114}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 890c015d690fe234dac12beda1c8434c, type: 3}
+  m_Name: New A Behaviour Tree
+  m_EditorClassIdentifier: 
+  rootNode: {fileID: 7363663856598678042}
+  treeState: 0
+  nodes:
+  - {fileID: 7363663856598678042}
+  - {fileID: -8778926738266729114}
+  - {fileID: -8373949754625244323}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+--- !u!114 &7363663856598678042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 163c147d123e4a945b688eddc64e3ea5, type: 3}
+  m_Name: RootNode
+  m_EditorClassIdentifier: 
+  state: 0
+  started: 0
+  guid: 6770b9ca48406d348b222b54b8d7c860
+  position: {x: -236, y: -273}
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+  description: '1
+
+    2
+
+    3
+
+    4
+
+'
+  drawGizmos: 0
+  child: {fileID: -8373949754625244323}

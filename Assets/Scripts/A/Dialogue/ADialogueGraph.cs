@@ -5,14 +5,14 @@ using UnityEngine;
 namespace A.Dialogue
 {
     [CreateAssetMenu(menuName = AConstants.AssetMenuRoot + "/" + ADialogueConstants.AssetMenuRoot + "/" + "Dialogue Graph", fileName = "New DialogueGraph")]
-    public partial class ADialogueGraph : ScriptableObject
+    public class ADialogueGraph : ScriptableObject
     {
         public List<ANodeData> nodeData = new List<ANodeData>();
         public List<LinkData> nodeLinks = new List<LinkData>();
         public List<AExposedProperty> exposedProperties = new List<AExposedProperty>();
         public ADialogueSpeakerRegister register;
 
-        public const string Continue = "Continue";
+        public const string GotoNext = "gotonext";
 
         [System.Serializable]
         public class LinkData

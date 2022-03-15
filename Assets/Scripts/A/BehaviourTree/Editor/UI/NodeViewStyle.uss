@@ -73,16 +73,19 @@
 
 #title {
     -unity-font-style: bold;
-    font-size: 12px;
+    font-size: 14px;
     min-height: 30px;
     -unity-text-align: upper-center;
 }
 
 #description {
-    font-size: 8px;
+    font-size: 10px;
     white-space: normal;
     max-width: none;
     flex-grow: 1;
+    -unity-text-align: upper-center;
+    -unity-font-style: normal;
+    max-height: 50px;
 }
 
 #divider {
