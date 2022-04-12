@@ -23,7 +23,7 @@ namespace A.Inventory
 
         public string guid { get; private set; }
 
-        public virtual CMI<AInventoryItem>[] actions => null;
+        public virtual CMA<APositionedItemStack>[] actions => null;
         public Action<AItem, int> RemoveItemFromInventory;
 
         public enum Rarity
@@ -71,6 +71,39 @@ namespace A.Inventory
         protected virtual void Awake()
         {
             guid = System.Guid.NewGuid().ToString();
+        }
+
+        public override bool Equals(object other)
+        {
+            if (other is AItem item)
+                return item.guid == guid;
+            else
+                return base.Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+            return guid.GetHashCode();
+        }
+
+        public static bool operator ==(AItem lhs, AItem rhs)
+        {
+            if ((object)lhs == null)
+            {
+                if ((object)rhs == null)
+                    return true;
+                else
+                    return false;
+            }
+            else
+            {
+                return lhs.Equals(rhs);
+            }
+        }
+
+        public static bool operator !=(AItem lhs, AItem rhs)
+        {
+            return !(lhs == rhs);
         }
     }
 }

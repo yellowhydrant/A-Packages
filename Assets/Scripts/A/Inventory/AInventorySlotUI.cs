@@ -19,7 +19,7 @@ namespace A.Inventory.UI
 
         [SerializeField] AItemRaritySpriteDictionary raritySprites;
 
-        public void SetItem(AInventoryItem item)
+        public void SetItem(APositionedItemStack item)
         {
             if (!item.HasItem)
             {
@@ -32,9 +32,9 @@ namespace A.Inventory.UI
             }
             else
             {
-                icon.sprite = item.Item.sprite;
-                rarity.sprite = raritySprites.values[item.Item.rarity];
-                mainText.text = string.Format(amountFormat, item.currentAmount, item.MaxAmount);
+                icon.sprite = item.stack.item.sprite;
+                rarity.sprite = raritySprites.values[item.stack.item.rarity];
+                mainText.text = string.Format(amountFormat, item.stack.currentAmount, item.MaxAmount);
                 interactable = true;
                 HasItem = true;
             }

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using A.Extensions;
 #if UNITY_EDITOR
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
@@ -12,7 +13,10 @@ namespace A.Inventory
     public sealed class AItemCache : ScriptableObject
     {
         [SerializeField, HideInInspector] AItem[] cachedItems;
-        public static Dictionary<string, AItem> Items { get; private set; }
+        static Dictionary<string, AItem> items;
+
+        static AItem missingItem = null;
+        static AItem emptyItem = null;
 
         const string ResourcesName = "ItemCache";
 
@@ -55,10 +59,26 @@ namespace A.Inventory
         static void Init()
         {
             var cache = Resources.Load<AItemCache>(ResourcesName);
-            Items = new Dictionary<string, AItem>();
+            items = new Dictionary<string, AItem>();
             for (int i = 0; i < cache.cachedItems.Length; i++)
             {
-                Items.Add(cache.cachedItems[i].guid, cache.cachedItems[i]);
+                items.Add(cache.cachedItems[i].guid, cache.cachedItems[i]);
+            }
+        }
+
+        public static AItem GetItem(string guid)
+        {
+            if (string.IsNullOrEmpty(guid))
+                return emptyItem;
+
+            if (guid.IsValidGuid())
+            {
+                return items[guid];
+            }
+            else
+            {
+                Debug.LogError("Error: Invalid guid, item not found!");
+                return missingItem;
             }
         }
     }

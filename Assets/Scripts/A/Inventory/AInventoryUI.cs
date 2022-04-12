@@ -3,14 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using CMI = A.UI.CMI<A.Inventory.AInventoryItem>;
+using CMA = A.UI.CMA<A.Inventory.APositionedItemStack>;
 using Linq = System.Linq.Enumerable;
 
 namespace A.Inventory.UI
 {
     public class AInventoryUI : MonoBehaviour
     {
-        public AInventory inventory;
+        public APositionedInventory inventory;
 
         [SerializeField] AInventorySlotUI slotPrefab;
         [SerializeField] RectTransform slotContainer;
@@ -56,11 +56,11 @@ namespace A.Inventory.UI
             var item = inventory.GetItem(index);
             if (!item.HasItem)
                 return;
-            var cmas = new List<CMI> { new CMI("Examine", null, Examine, () => true), new CMI("Move", null, Move, () => HasFlag(item, AItem.Capabilities.Movable)), new CMI("Remove", null, Remove, () => HasFlag(item, AItem.Capabilities.Removable)) };
-            if(item.Item.actions != null)
+            var cmas = new List<CMA> { new CMA("Examine", null, Examine, () => true), new CMA("Move", null, Move, () => HasFlag(item, AItem.Capabilities.Movable)), new CMA("Remove", null, Remove, () => HasFlag(item, AItem.Capabilities.Removable)) };
+            if(item.stack.item.actions != null)
             {
                 cmas.Add(null);
-                cmas.AddRange(item.Item.actions);
+                cmas.AddRange(item.stack.item.actions);
             }
             contextMenu.SetupButtons(item, cmas, CloseContextMenu);
             //TODO: set ctx menu position to slot pos and check for edges
@@ -74,15 +74,15 @@ namespace A.Inventory.UI
             contextMenu.gameObject.SetActive(true);
         }
 
-        void Examine(AInventoryItem item)
+        void Examine(APositionedItemStack item)
         {
             //do nothing yet
             Debug.Log("This is not implemented");
         }
 
-        void Move(AInventoryItem item)
+        void Move(APositionedItemStack item)
         {
-            if (!item.Item.capabilities.HasFlag(AItem.Capabilities.Movable))//
+            if (!item.stack.item.capabilities.HasFlag(AItem.Capabilities.Movable))//
             {
                 CloseContextMenu();
                 return;
@@ -96,17 +96,17 @@ namespace A.Inventory.UI
         void MoveTo(int index)
         {
             var item = inventory.GetItem(index);
-            if (item.HasItem && !item.Item.capabilities.HasFlag(AItem.Capabilities.Movable))
+            if (item.HasItem && !item.stack.item.capabilities.HasFlag(AItem.Capabilities.Movable))
                 return;
             slots[selectedSlot].Highlight(false);
-            inventory.SwapItems(index, selectedSlot);
+            inventory.SwapSlots(index, selectedSlot);
             onClick = OpenContextMenu;
             ActivateEmptySlots(false);
         }
 
-        void Remove(AInventoryItem item)
+        void Remove(APositionedItemStack item)
         {
-            if (!item.Item.capabilities.HasFlag(AItem.Capabilities.Removable))//
+            if (!item.stack.item.capabilities.HasFlag(AItem.Capabilities.Removable))//
             {
                 CloseContextMenu();
                 return;
@@ -119,9 +119,9 @@ namespace A.Inventory.UI
             contextMenu.gameObject.SetActive(false);
         }
 
-        bool HasFlag(AInventoryItem item, AItem.Capabilities flag)
+        bool HasFlag(APositionedItemStack item, AItem.Capabilities flag)
         {
-            return item.Item.capabilities.HasFlag(flag);
+            return item.stack.item.capabilities.HasFlag(flag);
         }
 
         void ActivateEmptySlots(bool value)

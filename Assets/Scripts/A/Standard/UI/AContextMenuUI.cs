@@ -20,7 +20,7 @@ namespace A.UI
             rect = transform as RectTransform;
         }
 
-        public void SetupButtons<T>(T obj, IEnumerable<CMI<T>> items, Action endAct)
+        public void SetupButtons<T>(T obj, IEnumerable<CMA<T>> items, Action endAct)
         {
             //Clean up previous actions
             foreach (Transform child in container)
@@ -53,14 +53,14 @@ namespace A.UI
     }
 
     [Serializable]
-    public class CMI<T>
+    public class CMA<T>
     {
         public string label;
         public Sprite sprite;
         public Action<T> action;
         public Func<bool> validate;
 
-        public CMI(string label, Sprite sprite, Action<T> action, Func<bool> validate)
+        public CMA(string label, Sprite sprite, Action<T> action, Func<bool> validate)
         {
             this.label = label;
             this.sprite = sprite;

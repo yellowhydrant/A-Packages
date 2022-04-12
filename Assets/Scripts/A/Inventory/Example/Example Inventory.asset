@@ -228,18 +228,599 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c59e0af02f38e964698472359d79aff5, type: 3}
   m_Name: Example Inventory
   m_EditorClassIdentifier: 
-  <guid>k__BackingField: 319da72c-8776-414e-928a-00c6b221c835
-  dimensions: {x: 4, y: 4}
   itemsToAddOnInit:
-  - <Item>k__BackingField: {fileID: 11400000, guid: 5c72b0c2827b3df46916d5dc66f7b5a8, type: 2}
+  - _item: {fileID: 11400000, guid: 5c72b0c2827b3df46916d5dc66f7b5a8, type: 2}
     <itemGuid>k__BackingField: 
     currentAmount: 1
     useCount: 0
+  - _item: {fileID: 11400000, guid: 5c72b0c2827b3df46916d5dc66f7b5a8, type: 2}
+    <itemGuid>k__BackingField: 
+    currentAmount: 6
+    useCount: 0
+  <capacity>k__BackingField: 144
+  slots:
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 11400000, guid: 5c72b0c2827b3df46916d5dc66f7b5a8, type: 2}
+    <itemGuid>k__BackingField: 
+    currentAmount: 1
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  - _item: {fileID: 0}
+    <itemGuid>k__BackingField: 
+    currentAmount: 0
+    useCount: 0
+  dimensions: {x: 4, y: 4}
 --- !u!114 &285339637112886942
 MonoBehaviour:
   m_ObjectHideFlags: 0
