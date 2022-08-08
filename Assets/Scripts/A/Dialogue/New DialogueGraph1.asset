@@ -1,0 +1,161 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-3576961006647131809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e643f69b120eca24cb447a1124cf4a7a, type: 3}
+  m_Name: New DialogueGraph1_Node1
+  m_EditorClassIdentifier: 
+  actor_: {fileID: 0}
+  nodePosition: {x: 576, y: -12}
+  GUID: 8ac2a5a352940504f926596369964c25
+  choices: []
+--- !u!114 &-2140582892631199375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c48f204f5ee71c4fac0c6de471f89ee, type: 3}
+  m_Name: New DialogueGraph1_Node4
+  m_EditorClassIdentifier: 
+  actor_: {fileID: 0}
+  nodePosition: {x: 0, y: 0}
+  GUID: 
+  choices: []
+  actorDialogue: 
+  textAnimationType: 0
+  choiceDelay: 0.4
+  curve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  typeDelay: 0.015
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6d726050415941ee87b715e47f2a60d, type: 3}
+  m_Name: New DialogueGraph1
+  m_EditorClassIdentifier: 
+  nodeData:
+  - {fileID: 597485579628682548}
+  - {fileID: -3576961006647131809}
+  - {fileID: 3169612231028996070}
+  - {fileID: 800440655873875953}
+  - {fileID: -2140582892631199375}
+  nodeLinks:
+  - baseGUID: 38bc8f5887cc90c4ba839b45935b00b9
+    portName: next
+    targetGUID: f10ac068411daee489d47e13f26eaf91
+  - baseGUID: f10ac068411daee489d47e13f26eaf91
+    portName: gotonext
+    targetGUID: 8ac2a5a352940504f926596369964c25
+  - baseGUID: 8ac2a5a352940504f926596369964c25
+    portName: 1
+    targetGUID: 016ba070dda0db049ae5b8265041e533
+  - baseGUID: 8ac2a5a352940504f926596369964c25
+    portName: 1
+    targetGUID: d5f88e1509ce206428d8807f3c4b7aa9
+  - baseGUID: f10ac068411daee489d47e13f26eaf91
+    portName: Choice 1
+    targetGUID: 8ac2a5a352940504f926596369964c25
+  - baseGUID: f10ac068411daee489d47e13f26eaf91
+    portName: Choice 2
+    targetGUID: 8ac2a5a352940504f926596369964c25
+  exposedProperties: []
+  register: {fileID: 0}
+--- !u!114 &597485579628682548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c48f204f5ee71c4fac0c6de471f89ee, type: 3}
+  m_Name: New DialogueGraph1_Node0
+  m_EditorClassIdentifier: 
+  actor_: {fileID: 0}
+  nodePosition: {x: 200, y: -46}
+  GUID: f10ac068411daee489d47e13f26eaf91
+  choices: []
+  actorDialogue: asczxczc
+  textAnimationType: 0
+  choiceDelay: 0.4
+  curve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  typeDelay: 0.015
+--- !u!114 &800440655873875953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c48f204f5ee71c4fac0c6de471f89ee, type: 3}
+  m_Name: New DialogueGraph1_Node3
+  m_EditorClassIdentifier: 
+  actor_: {fileID: 0}
+  nodePosition: {x: 910, y: 109}
+  GUID: d5f88e1509ce206428d8807f3c4b7aa9
+  choices: []
+  actorDialogue: 
+  textAnimationType: 0
+  choiceDelay: 0.4
+  curve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  typeDelay: 0.015
+--- !u!114 &3169612231028996070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c48f204f5ee71c4fac0c6de471f89ee, type: 3}
+  m_Name: New DialogueGraph1_Node2
+  m_EditorClassIdentifier: 
+  actor_: {fileID: 0}
+  nodePosition: {x: 910, y: -68}
+  GUID: 016ba070dda0db049ae5b8265041e533
+  choices: []
+  actorDialogue: 
+  textAnimationType: 0
+  choiceDelay: 0.4
+  curve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  typeDelay: 0.015

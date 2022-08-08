@@ -14,12 +14,11 @@ namespace A.Dialogue.Editor
         private void OnEnable()
         {
             var nodedata = target as ANodeData;
-            hasExtraProperties = typeof(ANodeData).GetFields().Any((f) =>
-            f.Name != "speaker_" &&
-            f.Name != "speakerDialogue" &&
+            hasExtraProperties = target.GetType().GetFields().Any((f) =>
+            f.Name != "actor_" &&
+            f.Name != "actorDialogue" &&
             f.Name != "nodePosition" &&
-            f.Name != "GUID" &&
-            f.Name != "isBranch"
+            f.Name != "GUID"
             );
         }
 
@@ -30,25 +29,25 @@ namespace A.Dialogue.Editor
 
             var nodedata = target as ANodeData;
 
-            EditorGUILayout.BeginHorizontal();
-            var textAreaStyle = new GUIStyle(EditorStyles.textArea);
-            textAreaStyle.wordWrap = true;
-            textAreaStyle.stretchHeight = true;
-            nodedata.speakerDialogue = EditorGUILayout.TextArea(nodedata.speakerDialogue, textAreaStyle, GUILayout.MinWidth(240f), GUILayout.MaxWidth(240f), GUILayout.MinHeight(64f));
-            EditorGUILayout.EndHorizontal();
+            if (nodedata is ADialogueNodeData dialogueNodeData)
+            {
+                EditorGUILayout.BeginHorizontal();
+                var textAreaStyle = new GUIStyle(EditorStyles.textArea);
+                textAreaStyle.wordWrap = true;
+                textAreaStyle.stretchHeight = true;
+                dialogueNodeData.actorDialogue = EditorGUILayout.TextArea(dialogueNodeData.actorDialogue, textAreaStyle, GUILayout.MinWidth(240f), GUILayout.MaxWidth(260f), GUILayout.MinHeight(64f));
+                EditorGUILayout.EndHorizontal();
+            }
 
             if (hasExtraProperties)
             {
                 EditorGUILayout.BeginVertical();
                 foldoutState = EditorGUILayout.Foldout(foldoutState, "Extra");
                 if (foldoutState)
-                    DrawPropertiesExcluding(serializedObject, nameof(nodedata.speakerDialogue), "speaker_", "m_Script");
+                    DrawPropertiesExcluding(serializedObject, "actorDialogue", "actor_", "m_Script");
                 EditorGUILayout.EndVertical();
             }
-            else
-            {
-                EditorGUILayout.Space(1.4f);
-            }
+            EditorGUILayout.Space(1.4f);
 
             if (EditorGUI.EndChangeCheck())
                 serializedObject.ApplyModifiedProperties();

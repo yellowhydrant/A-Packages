@@ -11,7 +11,8 @@ using A.Editor;
 namespace A.BehaviourTree
 {
     //TODO: Add the description field to the node itself (follow TheKiwiCoder Tut)
-    public class ABehaviourTreeEditor : EditorWindow {
+    public class ABehaviourTreeEditor : EditorWindow
+    {
 
         ABehaviourTreeView treeView;
         ABehaviourTree tree;
@@ -24,26 +25,33 @@ namespace A.BehaviourTree
         SerializedObject treeObject;
         SerializedProperty blackboardProperty;
 
+        bool lockState;
+
         [MenuItem(AConstants.MenuItemRoot + "/Behaviour Tree")]
-        public static void OpenWindow() {
+        public static void OpenWindow()
+        {
             ABehaviourTreeEditor wnd = GetWindow<ABehaviourTreeEditor>();
             wnd.titleContent = new GUIContent("BehaviourTreeEditor");
             wnd.minSize = new Vector2(800, 600);
         }
 
         [OnOpenAsset]
-        public static bool OnOpenAsset(int instanceId, int line) {
-            if (Selection.activeObject is ABehaviourTree) {
+        public static bool OnOpenAsset(int instanceId, int line)
+        {
+            if (Selection.activeObject is ABehaviourTree)
+            {
                 OpenWindow();
                 return true;
             }
             return false;
         }
 
-        List<T> LoadAssets<T>() where T : UnityEngine.Object {
+        List<T> LoadAssets<T>() where T : UnityEngine.Object
+        {
             string[] assetIds = AssetDatabase.FindAssets($"t:{typeof(T).Name}");
             List<T> assets = new List<T>();
-            foreach (var assetId in assetIds) {
+            foreach (var assetId in assetIds)
+            {
                 string path = AssetDatabase.GUIDToAssetPath(assetId);
                 T asset = AssetDatabase.LoadAssetAtPath<T>(path);
                 assets.Add(asset);
@@ -51,7 +59,8 @@ namespace A.BehaviourTree
             return assets;
         }
 
-        public void CreateGUI() {
+        public void CreateGUI()
+        {
 
             //var settings = BehaviourTreeSettings.GetOrCreateSettings();
 
@@ -77,7 +86,8 @@ namespace A.BehaviourTree
             // Blackboard view
             blackboardView = root.Q<IMGUIContainer>();
             blackboardView.onGUIHandler = () => {
-                if (treeObject != null && treeObject.targetObject != null) {
+                if (treeObject != null && treeObject.targetObject != null)
+                {
                     treeObject.Update();
                     EditorGUILayout.PropertyField(blackboardProperty);
                     treeObject.ApplyModifiedProperties();
@@ -97,7 +107,16 @@ namespace A.BehaviourTree
             createNewButton.text = "New Behaviour Tree";
             createNewButton.clicked += () => overlay.Show();
             toolBar.Add(createNewButton);
-            
+
+            var lockButton = new Button();
+            lockButton.text = "Unlocked";
+            lockButton.clicked += () => 
+            {
+                lockState = !lockState;
+                lockButton.text = lockState ? "Locked" : "Unlocked";
+            };
+            toolBar.Add(lockButton);
+
 
             // New Tree Dialog
             overlay = new ACreateAssetOverlay("Create New Tree");
@@ -112,24 +131,31 @@ namespace A.BehaviourTree
                 return AssetDeleteResult.DidNotDelete;
             };
 
-            if (tree == null) {
+            if (tree == null)
+            {
                 OnSelectionChange();
-            } else {
+            }
+            else
+            {
                 SelectTree(tree);
             }
         }
 
-        private void OnEnable() {
+        private void OnEnable()
+        {
             EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
             EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
         }
 
-        private void OnDisable() {
+        private void OnDisable()
+        {
             EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
         }
 
-        private void OnPlayModeStateChanged(PlayModeStateChange obj) {
-            switch (obj) {
+        private void OnPlayModeStateChanged(PlayModeStateChange obj)
+        {
+            switch (obj)
+            {
                 case PlayModeStateChange.EnteredEditMode:
                     OnSelectionChange();
                     break;
@@ -143,25 +169,36 @@ namespace A.BehaviourTree
             }
         }
 
-        private void OnSelectionChange() {
+        private void OnSelectionChange()
+        {
+            if (lockState)
+                return;
             EditorApplication.delayCall += () => {
                 ABehaviourTree tree = Selection.activeObject as ABehaviourTree;
-                if (!tree) {
-                    if (Selection.activeGameObject) {
+                if (!tree)
+                {
+                    if (Selection.activeGameObject)
+                    {
                         ABehaviourTreeRunner runner = Selection.activeGameObject.GetComponent<ABehaviourTreeRunner>();
-                        if (runner) {
-                            tree = runner.tree;
+                        if (runner)
+                        {
+                            if (runner.tree)
+                                SelectTree(runner.tree);
                         }
                     }
                 }
-
-                SelectTree(tree);
+                else
+                {
+                    SelectTree(tree);
+                }
             };
         }
 
-        void SelectTree(ABehaviourTree newTree) {
+        void SelectTree(ABehaviourTree newTree)
+        {
 
-            if (treeView == null) {
+            if (treeView == null)
+            {
                 return;
             }
 
@@ -174,9 +211,12 @@ namespace A.BehaviourTree
 
             overlay.Hide();
 
-            if (Application.isPlaying) {
+            if (Application.isPlaying)
+            {
                 treeView.PopulateView(tree);
-            } else {
+            }
+            else
+            {
                 treeView.PopulateView(tree);
             }
 
@@ -191,15 +231,18 @@ namespace A.BehaviourTree
             };
         }
 
-        void OnNodeSelectionChanged(ANodeView node) {
+        void OnNodeSelectionChanged(ANodeView node)
+        {
             inspectorView.UpdateSelection(node);
         }
 
-        private void OnInspectorUpdate() {
+        private void OnInspectorUpdate()
+        {
             treeView?.UpdateNodeStates();
         }
 
-        void CreateNewTree(string assetName) {
+        void CreateNewTree(string assetName)
+        {
             string path = System.IO.Path.Combine(overlay.pathField.value, $"{assetName}.asset");
             ABehaviourTree tree = ScriptableObject.CreateInstance<ABehaviourTree>();
             tree.name = overlay.name.ToString();

@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace A.Dialogue.Editor
 {
-    [CustomEditor(typeof(ADialogueSpeaker), true)]
+    [CustomEditor(typeof(ADialogueActor), true)]
     public class ADialogueSpeakerEditor : UnityEditor.Editor
     {
-        public System.Action<ADialogueSpeaker> remove;
+        public System.Action<ADialogueActor> remove;
         public override void OnInspectorGUI()
         {
             if (target == null || serializedObject == null)
@@ -15,7 +15,7 @@ namespace A.Dialogue.Editor
             serializedObject.Update();
             EditorGUI.BeginChangeCheck();
 
-            var speaker = (ADialogueSpeaker)target;
+            var speaker = (ADialogueActor)target;
 
             EditorGUILayout.BeginHorizontal();
             speaker.sprite = (Sprite)EditorGUILayout.ObjectField(string.Empty, speaker.sprite, typeof(Sprite), false, GUILayout.MaxWidth(64f), GUILayout.MaxHeight(64f));

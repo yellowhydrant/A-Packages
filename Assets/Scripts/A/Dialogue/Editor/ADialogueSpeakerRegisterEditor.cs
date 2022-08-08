@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace A.Dialogue.Editor
 {
-    [CustomEditor(typeof(ADialogueSpeakerRegister), true)]
+    [CustomEditor(typeof(ADialogueActorRegister), true)]
     public class ADialogueSpeakerRegisterEditor : UnityEditor.Editor
     {
         public override void OnInspectorGUI()
@@ -12,8 +12,8 @@ namespace A.Dialogue.Editor
             serializedObject.Update();
             EditorGUI.BeginChangeCheck();
 
-            var register = (ADialogueSpeakerRegister)target;
-            var speakers = register.speakers;
+            var register = (ADialogueActorRegister)target;
+            var speakers = register.actors;
 
             EditorGUILayout.BeginVertical();
             if (GUILayout.Button("Add Speaker"))

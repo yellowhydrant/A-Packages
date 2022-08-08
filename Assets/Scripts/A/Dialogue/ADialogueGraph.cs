@@ -10,7 +10,7 @@ namespace A.Dialogue
         public List<ANodeData> nodeData = new List<ANodeData>();
         public List<LinkData> nodeLinks = new List<LinkData>();
         public List<AExposedProperty> exposedProperties = new List<AExposedProperty>();
-        public ADialogueSpeakerRegister register;
+        public ADialogueActorRegister register;
 
         public const string GotoNext = "gotonext";
 

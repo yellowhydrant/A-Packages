@@ -149,6 +149,16 @@ namespace A.Dialogue.Editor
             LoadNodes();
             graphViewChanged += OnGraphViewChanged;
             isClear = false;
+
+            var randomNodes = nodes.Cast<ADialogueNode>().Where((x) => x.nodeData is ARandomNodeData).ToArray();
+            for (int i = 0; i < randomNodes.Length; i++)
+            {
+                var node = randomNodes[i];
+                var sum = dialogueGraph.nodeLinks.Where((x) => x.baseGUID == node.GUID).Sum((x) => float.Parse(x.portName));
+                var ports = node.outputContainer.Query<Port>().ToList();
+                for (int j = 0; j < ports.Count; j++)
+                    ports[j].contentContainer.Q<Label>("percentage-text").text = ((float.Parse(ports[j].portName) / Mathf.Max(1, sum)) * 100).ToString("n2") + "%";
+            }
         }
 
         void InstantiateEntryPoint()
@@ -158,6 +168,7 @@ namespace A.Dialogue.Editor
             node.title = "START";
             node.GUID = GUID.Generate().ToString();
             node.entryPoint = true;
+            node.nodeData = ScriptableObject.CreateInstance<ARootNodeData>();
 
             //Create entry port
             var port = GeneratePort(node, Direction.Output);
@@ -175,7 +186,7 @@ namespace A.Dialogue.Editor
 
         Port GeneratePort(ADialogueNode node, Direction dir, Port.Capacity capacity = Port.Capacity.Single)
         {
-            return node.InstantiatePort(Orientation.Horizontal, dir, capacity, typeof(string));
+            return node.InstantiatePort(Orientation.Horizontal, dir, capacity, node.nodeData.portType);
         }
 
         void RefreshNode(ADialogueNode node)
@@ -204,7 +215,7 @@ namespace A.Dialogue.Editor
 
             //Create and add nameText
             var nameText = new Label();
-            nameText.text = nodeData.speaker.name;
+            nameText.text = nodeData.actor.name;
             nameText.style.unityTextAlign = TextAnchor.MiddleCenter;
             nameText.style.flexGrow = 1f;
             nameText.style.fontSize = 16f;
@@ -221,49 +232,46 @@ namespace A.Dialogue.Editor
             newChoiceButton.text = "New Choice";
             node.titleContainer.Add(newChoiceButton);
 
-            if (!nodeData.isBranch)
+            //Create IMGUIContainer for additional nodeData variables
+            node.editor = UnityEditor.Editor.CreateEditor(node.nodeData);
+            var container = new IMGUIContainer(() =>
             {
-                //Create IMGUIContainer for additional nodeData variables
-                var editor = UnityEditor.Editor.CreateEditor(node.nodeData);
-                var container = new IMGUIContainer(() =>
+                EditorGUILayout.BeginVertical();
+                if (dialogueGraph != null && dialogueGraph.register != null)
                 {
-                    EditorGUILayout.BeginVertical();
-                    if (dialogueGraph != null && dialogueGraph.register != null)
+                    var nodeData = node.nodeData;
+                    var names = new string[dialogueGraph.register.actors.Count];
+                    var cur = 0;
+                    for (int i = 0; i < names.Length; i++)
                     {
-                        var names = new string[dialogueGraph.register.speakers.Count];
-                        var cur = 0;
-                        for (int i = 0; i < names.Length; i++)
-                        {
-                            names[i] = dialogueGraph.register.speakers[i].name;
-                            if (dialogueGraph.register.speakers[i].guid == nodeData.speaker.guid)
-                                cur = i;
-                        }
-                        nodeData.speaker = dialogueGraph.register.speakers[EditorGUILayout.Popup("Speaker:", cur, names)];
-                        nameText.text = nodeData.speaker.name;
+                        names[i] = dialogueGraph.register.actors[i].name;
+                        if (dialogueGraph.register.actors[i].guid == nodeData.actor.guid)
+                            cur = i;
                     }
-                    EditorGUILayout.EndVertical();
-                    if (editor != null && editor.target != null)
-                    {
-                        editor.OnInspectorGUI();
-                    }
-                });
-                container.style.maxWidth = 320f;
-                container.style.backgroundColor = new Color(63 / 256f, 63 / 256f, 63 / 256f, 205 / 256f);
-                node.mainContainer.Add(container);
-            }
-            else
-            {
-                node.TurnIntoBranchNode();
-            }
+                    nodeData.actor = dialogueGraph.register.actors[EditorGUILayout.Popup("Speaker:", cur, names)];
+                    nameText.text = nodeData.actor.name;
+                }
+                EditorGUILayout.EndVertical();
+                if (node.editor != null && node.editor.target != null)
+                {
+                    node.editor.OnInspectorGUI();
+                }
+            });
+            container.style.maxWidth = 320f;
+            container.style.backgroundColor = new Color(63 / 256f, 63 / 256f, 63 / 256f, 205 / 256f);
+            node.mainContainer.Add(container);
+            node.style.minWidth = 280f;
+
             //Refresh and return node
             RefreshNode(node);
             return node;
         }
 
-        public void CreateNode(Vector2 position = new Vector2())
+        public void CreateNode(Vector2 position = new Vector2(), ANodeData nodeData = null)
         {
             //Create and add nodeData to asset
-            var nodeData = ScriptableObject.CreateInstance<ANodeData>();
+            if(nodeData == null)
+                nodeData = ScriptableObject.CreateInstance<ADialogueNodeData>();
             nodeData.name = dialogueGraph.name + "_Node" + dialogueGraph.nodeData.Count;
             dialogueGraph.nodeData.Add(nodeData);
             AssetDatabase.AddObjectToAsset(nodeData, dialogueGraph);
@@ -271,10 +279,21 @@ namespace A.Dialogue.Editor
 
             //Create and add node to graphview
             var node = CreateDialogueNode(nodeData);
-            nodeData.Init(node.GUID, "", position);
+            nodeData.Init(node.GUID, position);
             node.SetPosition(new Rect(position, node.GetPosition().size));
             AddElement(node);
             AddChoicePort(node);
+        }
+
+        void ReplaceNodeData(ADialogueNode node, ANodeData oldNode, ANodeData newNode)
+        {
+            dialogueGraph.nodeData[dialogueGraph.nodeData.IndexOf(oldNode)] = newNode;
+            AssetDatabase.RemoveObjectFromAsset(oldNode);
+            Object.DestroyImmediate(oldNode);
+            AssetDatabase.AddObjectToAsset(newNode, dialogueGraph);
+            AssetDatabase.SaveAssets();
+            node.editor = UnityEditor.Editor.CreateEditor(node.nodeData);
+            RefreshNode(node);
         }
 
         public void AddChoicePort(ADialogueNode node, string portName = null)
@@ -295,9 +314,40 @@ namespace A.Dialogue.Editor
             //    prevValue = Regex.Replace(prevValue, "[^0-9]", "");
             //}
 
-            if (!node.nodeData.isBranch)
+            //Create and add choiceTextField to port.contentContainer
+
+            //if(node.nodeData.digitOnlyChoiceNames)
+            if (node.nodeData.floatChoiceNames)
             {
-                //Create and add choiceTextField to port.contentContainer
+                var choiceFloatField = new FloatField(name = string.Empty);
+                choiceFloatField.value = float.TryParse(port.portName, out var val) ? val : 1;
+                var initialValue = port.portName;
+                var percentageText = node.nodeData is ARandomNodeData ? new Label() { name = "percentage-text", text = "00.00%"} : null;
+                choiceFloatField.RegisterValueChangedCallback((c) =>
+                {
+                    port.portName = c.newValue.ToString();
+                    if (dialogueGraph != null)
+                    {
+                        var link = dialogueGraph.nodeLinks.FirstOrDefault((x) => x.baseGUID == node.GUID && (x.portName == initialValue || x.portName ==  c.previousValue.ToString()));
+                        if (link != null)
+                        {
+                            link.portName = c.newValue.ToString();
+                            if (percentageText != null)
+                            {
+                                var sum = dialogueGraph.nodeLinks.Where((x) => x.baseGUID == node.GUID).Sum((x) => float.Parse(x.portName));
+                                var ports = node.outputContainer.Query<Port>().ToList();
+                                for (int i = 0; i < ports.Count; i++)
+                                    ports[i].contentContainer.Q<Label>("percentage-text").text = ((float.Parse(ports[i].portName) / Mathf.Max(1, sum)) * 100).ToString("n2") + "%";
+                            }
+                        }
+                    }
+                });
+                port.contentContainer.Add(new Label("  "));
+                port.contentContainer.Add(percentageText);
+                port.contentContainer.Add(choiceFloatField);
+            }
+            else
+            {
                 var choiceTextField = new TextField() { name = string.Empty, value = port.portName };
                 choiceTextField.RegisterValueChangedCallback((c) =>
                 {
@@ -307,24 +357,6 @@ namespace A.Dialogue.Editor
                         var link = dialogueGraph.nodeLinks.FirstOrDefault((x) => x.baseGUID == node.GUID && x.portName == c.previousValue);
                         if (link != null)
                             link.portName = c.newValue;
-                    }
-                });
-                port.contentContainer.Add(new Label("  "));
-                port.contentContainer.Add(choiceTextField);
-            }
-            else
-            {
-                //var numbersInString = Regex.Replace(port.portName, "[^0-9]", "");
-                float.TryParse(port.portName, out var result);
-                var choiceTextField = new FloatField() { name = string.Empty, value = result};
-                choiceTextField.RegisterValueChangedCallback((c) =>
-                {
-                    port.portName = c.newValue.ToString();
-                    if (dialogueGraph != null)
-                    {
-                        var link = dialogueGraph.nodeLinks.FirstOrDefault((x) => x.baseGUID == node.GUID && x.portName == c.previousValue.ToString());
-                        if (link != null)
-                            link.portName = c.newValue.ToString();
                     }
                 });
                 port.contentContainer.Add(new Label("  "));
@@ -418,7 +450,15 @@ namespace A.Dialogue.Editor
         {
             //Get click position
             var position = viewTransform.matrix.inverse.MultiplyPoint(evt.localMousePosition);
-            evt.menu.AppendAction("Create Node", (d) => CreateNode(position));
+            var types = TypeCache.GetTypesDerivedFrom<ANodeData>();
+            foreach (var type in types)
+            {
+                if (type != typeof(ARootNodeData))
+                {
+                    var name = type.Name.Substring(1).Replace("NodeData", "");
+                    evt.menu.AppendAction($"Create Node/{name}", (ctx) => CreateNode(position, ScriptableObject.CreateInstance(type) as ANodeData));
+                }
+            }
         }
 
         GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)

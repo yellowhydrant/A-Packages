@@ -1,5 +1,7 @@
 ﻿#if UNITY_EDITOR
 using UnityEngine.UIElements;
+using UnityEditor;
+using UnityEngine;
 
 namespace A.Dialogue.Editor
 {
@@ -9,28 +11,11 @@ namespace A.Dialogue.Editor
         public bool entryPoint;
 
         public ANodeData nodeData;
+        public UnityEditor.Editor editor;
 
         public ADialogueNode()
         {
 
-        }
-
-        public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
-        {
-            base.BuildContextualMenu(evt);
-            evt.menu.AppendAction("Turn into branch node", (ctx) => TurnIntoBranchNode());
-        }
-
-        public void TurnIntoBranchNode()
-        {
-            var imguiContainer = mainContainer.Q<IMGUIContainer>();
-            if(imguiContainer != null)
-                mainContainer.Remove(imguiContainer);
-            var label = mainContainer.Q<Label>();
-            label.text = "Branch";
-            var addButton = mainContainer.Q<Button>();
-            addButton.text = "New Chance";
-            nodeData.isBranch = true;
         }
     }
 }

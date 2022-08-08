@@ -2,27 +2,42 @@
 
 namespace A.Dialogue
 {
-    public class ANodeData : ScriptableObject
+    public abstract class ANodeData : ScriptableObject
     {
-        public ADialogueSpeaker speaker
+        public ADialogueActor actor
         {
-            get => speaker_ == null ? ADialogueSpeaker.NullSpeaker : speaker_;
-            set => speaker_ = value;
+            get => actor_ == null ? ADialogueActor.NullSpeaker : actor_;
+            set => actor_ = value;
         }
-        [SerializeField] ADialogueSpeaker speaker_;
-        public string speakerDialogue;
+        [SerializeField] ADialogueActor actor_;
+
 
         [HideInInspector]
         public Vector2 nodePosition;
         [HideInInspector]
         public string GUID;
-        internal bool isBranch;
+        [HideInInspector]
+        public ADialogueGraph.LinkData[] choices;
 
-        public void Init(string guid, string dialogue, Vector2 pos)
+        //public virtual bool allowMultipleChoices { get; } = true;
+        public virtual bool floatChoiceNames { get; } = false;
+        public virtual System.Type portType { get; } = typeof(int);
+
+        public void Init(string guid, Vector2 pos)
         {
             GUID = guid;
-            speakerDialogue = dialogue;
             nodePosition = pos;
         }
+
+        public void Init(ANodeData nodeData)
+        {
+            GUID = nodeData.GUID;
+            nodePosition = nodeData.nodePosition;
+            actor = nodeData.actor;
+        }
+
+        public abstract void OnNodeEnter(ADialogueParser parser);
+        public abstract void OnNodeUpdate(ADialogueParser parser);
+        public abstract void OnNodeExit(ADialogueParser parser);
     }
 }

@@ -20,6 +20,7 @@ namespace A.Dialogue.Editor
         ACreateAssetOverlay overlay;
 
         ADialogueGraph graph;
+        bool lockState;
 
         [MenuItem(AConstants.MenuItemRoot + "/Dialogue Graph Editor")]
         public static void OpenWindow()
@@ -80,6 +81,15 @@ namespace A.Dialogue.Editor
             createButton.clicked += () => overlay.Show();
             toolbar.Add(createButton);
 
+            var lockButton = new Button();
+            lockButton.text = "Unlocked";
+            lockButton.clicked += () =>
+            {
+                lockState = !lockState;
+                lockButton.text = lockState ? "Locked" : "Unlocked";
+            };
+            toolbar.Add(lockButton);
+
             if (graph == null)
             {
                 OnSelectionChange();
@@ -92,9 +102,26 @@ namespace A.Dialogue.Editor
 
         private void OnSelectionChange()
         {
+            if (lockState)
+                return;
             EditorApplication.delayCall += () => {
-                ADialogueGraph tree = Selection.activeObject as ADialogueGraph;
-                SelectGraph(tree);
+                ADialogueGraph graph = Selection.activeObject as ADialogueGraph;
+                if (!graph)
+                {
+                    if (Selection.activeGameObject)
+                    {
+                        ADialogueParser parser = Selection.activeGameObject.GetComponent<ADialogueParser>();
+                        if (parser)
+                        {
+                            if (parser.graph)
+                                SelectGraph(parser.graph);
+                        }
+                    }
+                }
+                else
+                {
+                    SelectGraph(graph);
+                }
             };
         }
 
