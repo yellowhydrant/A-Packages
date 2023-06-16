@@ -5,7 +5,7 @@ using UnityEngine;
 namespace A.Dialogue.Editor
 {
     [CustomEditor(typeof(ADialogueActor), true)]
-    public class ADialogueSpeakerEditor : UnityEditor.Editor
+    public class ADialogueActorEditor : UnityEditor.Editor
     {
         public System.Action<ADialogueActor> remove;
         public override void OnInspectorGUI()
@@ -15,13 +15,14 @@ namespace A.Dialogue.Editor
             serializedObject.Update();
             EditorGUI.BeginChangeCheck();
 
-            var speaker = (ADialogueActor)target;
+            var actor = (ADialogueActor)target;
 
             EditorGUILayout.BeginHorizontal();
-            speaker.sprite = (Sprite)EditorGUILayout.ObjectField(string.Empty, speaker.sprite, typeof(Sprite), false, GUILayout.MaxWidth(64f), GUILayout.MaxHeight(64f));
-            speaker.name = EditorGUILayout.TextField(speaker.name);
-            if (GUILayout.Button("X", EditorStyles.miniButton))
-                remove.Invoke(speaker);
+            actor.sprite = (Sprite)EditorGUILayout.ObjectField(string.Empty, actor.sprite, typeof(Sprite), false, GUILayout.MaxWidth(64f), GUILayout.MaxHeight(64f));
+            DrawPropertiesExcluding(serializedObject, "m_Script", nameof(actor.guid), nameof(actor.sprite));
+            //actor.name = EditorGUILayout.TextField(actor.name);
+            //if (GUILayout.Button("X", EditorStyles.miniButton))
+            //    remove.Invoke(actor);
             EditorGUILayout.EndHorizontal();
 
             if (EditorGUI.EndChangeCheck())

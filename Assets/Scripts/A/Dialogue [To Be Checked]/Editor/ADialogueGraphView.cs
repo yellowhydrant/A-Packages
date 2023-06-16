@@ -40,6 +40,32 @@ namespace A.Dialogue.Editor
         public void InstantiateBlackboard()
         {
             blackboard = new Blackboard(this);
+
+            blackboard.Add(new BlackboardSection() { title = "Actors"});
+            blackboard.addItemRequested = (bb) => 
+            {
+                if(dialogueGraph == null || dialogueGraph.register == null)
+                {
+                    Debug.LogError("No graph is selected or actor register is missing! Please fix before trying again!");
+                    return;
+                }
+                dialogueGraph.register.AddActor(out var actor);
+                AddActorToBlackboard(actor);
+            };
+            blackboard.editTextRequested = (bb, elem, newValue) => 
+            {
+                var bbField = (BlackboardField)elem;
+                var guid = bbField.name;
+                var actor = dialogueGraph.register.actors.First((x) => x.guid == guid);
+                actor.name = newValue;
+                bbField.text = newValue;
+            };
+
+            blackboard.SetPosition(new Rect(10, 30, 300, 400));
+
+            Add(blackboard);
+
+            return;
             blackboard.Add(new BlackboardSection() { title = "Exposed Properties" });
             blackboard.addItemRequested = (bb) =>
             {
@@ -61,6 +87,31 @@ namespace A.Dialogue.Editor
             blackboard.SetPosition(new Rect(10, 30, 200, 300));
 
             Add(blackboard);
+        }
+
+        void AddActorToBlackboard(ADialogueActor actor)
+        {
+            var mainContainer = new VisualElement();
+            var bbField = new BlackboardField() { text = actor.name, typeText = "" };
+            bbField.name = actor.guid;
+            mainContainer.Add(bbField);
+
+            var propertyContainer = new VisualElement();
+
+            var guiField = new IMGUIContainer();
+            var serializedObject = new SerializedObject(actor);
+            var editor = UnityEditor.Editor.CreateEditor(actor);
+            guiField.onGUIHandler = () => 
+            {
+                if(editor != null)
+                    editor.OnInspectorGUI();
+            };
+            propertyContainer.Add(guiField);
+
+            var blackboardRow = new BlackboardRow(bbField, propertyContainer);
+            mainContainer.Add(blackboardRow);
+
+            blackboard.Add(mainContainer);
         }
 
         private void AddPropertyToBlackboard(AExposedProperty exposedProperty, bool addToDialogue)
@@ -139,9 +190,18 @@ namespace A.Dialogue.Editor
                 return;
 
             //Create and add properties from data
-            for (int i = 0; i < dialogueGraph.exposedProperties.Count; i++)
+            //for (int i = 0; i < dialogueGraph.exposedProperties.Count; i++)
+            //{
+            //    AddPropertyToBlackboard(dialogueGraph.exposedProperties[i], false);
+            //}
+
+            //Create and add actors from register
+            if (dialogueGraph.register != null)
             {
-                AddPropertyToBlackboard(dialogueGraph.exposedProperties[i], false);
+                for (int i = 0; i < dialogueGraph.register.actors.Count; i++)
+                {
+                    AddActorToBlackboard(dialogueGraph.register.actors[i]);
+                }
             }
 
             //Create nodes from data

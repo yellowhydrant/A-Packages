@@ -14,17 +14,22 @@ namespace A.Dialogue
         public ReadOnlyCollection<ADialogueActor> actors => actors_.AsReadOnly();
         [SerializeField] List<ADialogueActor> actors_ = new List<ADialogueActor>();
 
-        public void AddSpeaker()
+
+        public void AddActor()
+        {
+            AddActor(out var _);
+        }
+        public void AddActor(out ADialogueActor actor)
         {
 #if UNITY_EDITOR
-            var actor = ScriptableObject.CreateInstance<ADialogueActor>();
+            actor = ScriptableObject.CreateInstance<ADialogueActor>();
             AssetDatabase.AddObjectToAsset(actor, this);
             AssetDatabase.SaveAssets();
             actors_.Add(actor);
 #endif
         }
 
-        public void RemoveSpeaker(ADialogueActor actor)
+        public void RemoveActor(ADialogueActor actor)
         {
 #if UNITY_EDITOR
             AssetDatabase.RemoveObjectFromAsset(actor);

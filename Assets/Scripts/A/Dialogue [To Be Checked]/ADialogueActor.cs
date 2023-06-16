@@ -4,7 +4,7 @@ namespace A.Dialogue
 {
     public class ADialogueActor : ScriptableObject
     {
-        public string guid = System.Guid.NewGuid().ToString();
+        [HideInInspector] public string guid = System.Guid.NewGuid().ToString();
         public Sprite sprite;
 
         public static ADialogueActor NullSpeaker 
