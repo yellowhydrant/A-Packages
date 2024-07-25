@@ -15,7 +15,10 @@ MonoBehaviour:
   actor_: {fileID: 7231274420944116159, guid: 2a43f171572146e4b90f5a4b3fbe8770, type: 2}
   nodePosition: {x: 227, y: -31}
   GUID: 0cbf93c4549cbfd43b1147d12c455dde
-  choices: []
+  choices:
+  - baseGUID: 0cbf93c4549cbfd43b1147d12c455dde
+    portName: gotonext
+    targetGUID: 688886e977599774b8ec502ecfdcb228
   actorDialogue: hi
   textAnimationType: 0
   choiceDelay: 0.4
@@ -59,7 +62,10 @@ MonoBehaviour:
   actor_: {fileID: 7231274420944116159, guid: 2a43f171572146e4b90f5a4b3fbe8770, type: 2}
   nodePosition: {x: 562, y: -31}
   GUID: 688886e977599774b8ec502ecfdcb228
-  choices: []
+  choices:
+  - baseGUID: 688886e977599774b8ec502ecfdcb228
+    portName: gotonext
+    targetGUID: 1727e93287c6f6741a771ec310c7a82c
   actorDialogue: im dory
   textAnimationType: 0
   choiceDelay: 0.4
@@ -85,7 +91,13 @@ MonoBehaviour:
   actor_: {fileID: 7231274420944116159, guid: 2a43f171572146e4b90f5a4b3fbe8770, type: 2}
   nodePosition: {x: 899, y: -31}
   GUID: 1727e93287c6f6741a771ec310c7a82c
-  choices: []
+  choices:
+  - baseGUID: 1727e93287c6f6741a771ec310c7a82c
+    portName: 1
+    targetGUID: 7a0d806264410574ab430b945440c889
+  - baseGUID: 1727e93287c6f6741a771ec310c7a82c
+    portName: 1
+    targetGUID: 7fd8dce56eac9194b9dd8fe2a4d7aad1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104,6 +116,7 @@ MonoBehaviour:
   - {fileID: 2543530001048870155}
   - {fileID: -5981778540915956354}
   - {fileID: 7874691046566608144}
+  - {fileID: 2196777157671025166}
   nodeLinks:
   - baseGUID: 50fe40787ca0db24c8cb5bee6c26f82d
     portName: next
@@ -122,6 +135,32 @@ MonoBehaviour:
     targetGUID: 7fd8dce56eac9194b9dd8fe2a4d7aad1
   exposedProperties: []
   register: {fileID: 11400000, guid: 2a43f171572146e4b90f5a4b3fbe8770, type: 2}
+--- !u!114 &2196777157671025166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c48f204f5ee71c4fac0c6de471f89ee, type: 3}
+  m_Name: New DialogueGraph_Node5
+  m_EditorClassIdentifier: 
+  actor_: {fileID: 0}
+  nodePosition: {x: 0, y: 0}
+  GUID: 
+  choices: []
+  actorDialogue: 
+  textAnimationType: 0
+  choiceDelay: 0.4
+  curve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  typeDelay: 0.015
 --- !u!114 &2543530001048870155
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,7 +177,7 @@ MonoBehaviour:
   nodePosition: {x: 1336, y: -126}
   GUID: 7a0d806264410574ab430b945440c889
   choices: []
-  actorDialogue: 
+  actorDialogue: doroty
   textAnimationType: 0
   choiceDelay: 0.4
   curve:
@@ -164,7 +203,7 @@ MonoBehaviour:
   nodePosition: {x: 1428.3002, y: 106.95003}
   GUID: 7fd8dce56eac9194b9dd8fe2a4d7aad1
   choices: []
-  actorDialogue: 
+  actorDialogue: caroty
   textAnimationType: 0
   choiceDelay: 0.4
   curve:

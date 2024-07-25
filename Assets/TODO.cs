@@ -1,6 +1,5 @@
 //REALISM:
 //TODO: Add revealletterbyletterco to adialogueparserbase
-//TODO: Add locking to behaviourtreeeditor and dialogueeditor
 //TODO: Add duplication to dialogueeditor
 
 
