@@ -12,26 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36df0073345b24770be1507befaf2893, type: 3}
   m_Name: dialogue animation test_Node0
   m_EditorClassIdentifier: 
-  speaker_: {fileID: -7663574978619170006, guid: 1a560594c3961f24abf1d56e44c93ef8, type: 2}
+  actor_: {fileID: 0}
   speakerDialogue: this is a very short sentence.
   nodePosition: {x: 544, y: -170}
   GUID: 7c15204b0d572e64597f89e228352bfc
---- !u!114 &-5558596123831852868
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36df0073345b24770be1507befaf2893, type: 3}
-  m_Name: dialogue animation test_Node4
-  m_EditorClassIdentifier: 
-  speaker_: {fileID: 0}
-  speakerDialogue: 
-  nodePosition: {x: 0, y: 0}
-  GUID: 
 --- !u!114 &-5068026427607390268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44,7 +28,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36df0073345b24770be1507befaf2893, type: 3}
   m_Name: dialogue animation test_Node3
   m_EditorClassIdentifier: 
-  speaker_: {fileID: -7663574978619170006, guid: 1a560594c3961f24abf1d56e44c93ef8, type: 2}
+  actor_: {fileID: 0}
   speakerDialogue: end
   nodePosition: {x: 953.2084, y: -0.0000029802322}
   GUID: cb4adf15de576f24ab86a1cf31a37888
@@ -60,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36df0073345b24770be1507befaf2893, type: 3}
   m_Name: dialogue animation test_Node1
   m_EditorClassIdentifier: 
-  speaker_: {fileID: -7663574978619170006, guid: 1a560594c3961f24abf1d56e44c93ef8, type: 2}
+  actor_: {fileID: 0}
   speakerDialogue: what text would you like to see?
   nodePosition: {x: 154, y: 0}
   GUID: 51b261ee260ad0844b6cad34f2de828d
@@ -81,7 +65,6 @@ MonoBehaviour:
   - {fileID: -4828004458600197184}
   - {fileID: 1515152849579994828}
   - {fileID: -5068026427607390268}
-  - {fileID: -5558596123831852868}
   nodeLinks:
   - baseGUID: 7ea3fb0d53a5ddf4ea3d2b386c0a29a2
     portName: next
@@ -99,7 +82,7 @@ MonoBehaviour:
     portName: gotonext
     targetGUID: cb4adf15de576f24ab86a1cf31a37888
   exposedProperties: []
-  register: {fileID: 11400000, guid: 1a560594c3961f24abf1d56e44c93ef8, type: 2}
+  register: {fileID: 0}
 --- !u!114 &1515152849579994828
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -112,7 +95,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36df0073345b24770be1507befaf2893, type: 3}
   m_Name: dialogue animation test_Node2
   m_EditorClassIdentifier: 
-  speaker_: {fileID: -7663574978619170006, guid: 1a560594c3961f24abf1d56e44c93ef8, type: 2}
+  actor_: {fileID: 0}
   speakerDialogue: this is a medium text consisting of multiple sentences. such as
     this sentence and that sentence. yeah, this is that sentence :)
   nodePosition: {x: 544, y: -5}
