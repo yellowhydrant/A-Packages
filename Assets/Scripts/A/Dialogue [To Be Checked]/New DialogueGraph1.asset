@@ -16,32 +16,6 @@ MonoBehaviour:
   nodePosition: {x: 576, y: -12}
   GUID: 8ac2a5a352940504f926596369964c25
   choices: []
---- !u!114 &-2140582892631199375
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c48f204f5ee71c4fac0c6de471f89ee, type: 3}
-  m_Name: New DialogueGraph1_Node4
-  m_EditorClassIdentifier: 
-  actor_: {fileID: 0}
-  nodePosition: {x: 0, y: 0}
-  GUID: 
-  choices: []
-  actorDialogue: 
-  textAnimationType: 0
-  choiceDelay: 0.4
-  curve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  typeDelay: 0.015
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59,7 +33,6 @@ MonoBehaviour:
   - {fileID: -3576961006647131809}
   - {fileID: 3169612231028996070}
   - {fileID: 800440655873875953}
-  - {fileID: -2140582892631199375}
   nodeLinks:
   - baseGUID: 38bc8f5887cc90c4ba839b45935b00b9
     portName: next

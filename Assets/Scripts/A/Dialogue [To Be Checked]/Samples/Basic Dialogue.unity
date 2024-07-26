@@ -38,7 +38,6 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -678,6 +677,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -839,6 +839,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
   m_MoveRepeatDelay: 0.5
   m_MoveRepeatRate: 0.1
   m_XRTrackingOrigin: {fileID: 0}
@@ -855,6 +856,7 @@ MonoBehaviour:
   m_TrackedDeviceOrientationAction: {fileID: 7970375526676320489, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
+  m_CursorLockBehavior: 0
 --- !u!1 &854831398
 GameObject:
   m_ObjectHideFlags: 0
@@ -1042,6 +1044,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecd135bbee9cb21488f41c5a18099a2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <graph>k__BackingField: {fileID: 0}
   actorName: {fileID: 854831400}
   actorDialogue: {fileID: 16091056}
   actorImage: {fileID: 0}
@@ -1051,7 +1054,7 @@ MonoBehaviour:
   EndDialogueButtonText: End Dialogue
   ContinueDialogueButtonText: Continue
   backgroundBlur: {fileID: 720059568}
-  testGraph: {fileID: 11400000, guid: 284836821f8a6dd47bef344389601c2a, type: 2}
+  testGraph: {fileID: 11400000, guid: b7cfc926ba1c3b447ac1540c5b11d5a8, type: 2}
 --- !u!1 &1477433918
 GameObject:
   m_ObjectHideFlags: 0

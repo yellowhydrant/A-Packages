@@ -14,6 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   guid: 1154ae7c-2b18-4f4f-8ff2-aeeabc4acfcb
   sprite: {fileID: 21300000, guid: 28dffee3b9293de47a95e7b290f27984, type: 3}
+--- !u!114 &-4471941642602150419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 298c4d0347acad24caad888b64ac0c4c, type: 3}
+  m_Name: Soldier
+  m_EditorClassIdentifier: 
+  guid: 7dfab50c-9d8d-4e6d-818c-0a6fab031303
+  sprite: {fileID: 0}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32,6 +46,9 @@ MonoBehaviour:
   - {fileID: 4548546204924670706}
   - {fileID: -5051972441830202736}
   - {fileID: 413208351487921183}
+  - {fileID: 2241394861921997259}
+  - {fileID: 1681879343029437263}
+  - {fileID: -4471941642602150419}
 --- !u!114 &413208351487921183
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46,6 +63,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   guid: 3b21a4b2-d2db-4c28-8c6e-6876efd7cf21
   sprite: {fileID: 21300000, guid: d4860e56583023e4d9b030e44548a0b5, type: 3}
+--- !u!114 &1681879343029437263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 298c4d0347acad24caad888b64ac0c4c, type: 3}
+  m_Name: Captain
+  m_EditorClassIdentifier: 
+  guid: cf5c9e41-0156-4d54-8e6e-b4555d511102
+  sprite: {fileID: 0}
+--- !u!114 &2241394861921997259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 298c4d0347acad24caad888b64ac0c4c, type: 3}
+  m_Name: Carrot Lover
+  m_EditorClassIdentifier: 
+  guid: 1fe01be7-ca37-40da-8a50-249e95d4be25
+  sprite: {fileID: 0}
 --- !u!114 &4548546204924670706
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -12,7 +12,19 @@ namespace A.Dialogue
         {
             //TODO: make it weighted using the portnames from choices[]
             //parser.ContinueDialogue(choices[Random.Range(0, choices.Length)]);
-            
+            var sum = portWeightSum;
+            var num = Random.value;
+            var prev = -0.00001f;
+            for (int i = 0; i < choices.Length; i++) 
+            {
+                var cur = float.Parse(choices[i].portName) / sum + prev;
+                if (num > prev && num <= cur)
+                {
+                    parser.ContinueDialogue(choices[i]);
+                    return;
+                }
+                prev = cur;
+            }
         }
 
         public override void OnNodeExit(ADialogueParser parser)
