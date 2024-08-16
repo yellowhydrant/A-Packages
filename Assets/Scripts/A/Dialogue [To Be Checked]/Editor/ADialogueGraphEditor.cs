@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using UnityEditor.Callbacks;
-using A;
 using A.Editor;
 
 namespace A.Dialogue.Editor

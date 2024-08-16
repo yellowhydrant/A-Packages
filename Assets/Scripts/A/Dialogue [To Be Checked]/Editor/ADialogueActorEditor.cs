@@ -7,7 +7,7 @@ namespace A.Dialogue.Editor
     [CustomEditor(typeof(ADialogueActor), true)]
     public class ADialogueActorEditor : UnityEditor.Editor
     {
-        public System.Action<ADialogueActor> remove;
+        //public System.Action<ADialogueActor> remove; what is this for?
         public override void OnInspectorGUI()
         {
             if (target == null || serializedObject == null)

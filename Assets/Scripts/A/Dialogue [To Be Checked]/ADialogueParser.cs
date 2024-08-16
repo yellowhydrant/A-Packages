@@ -221,7 +221,7 @@ namespace A.Dialogue
         //    onEnd.Invoke(endNode);
         //}
 
-        //TODO: Remove tags from properties, add blackboard for actors and rename speaker to actor
+        //TODO: Remove tags from properties?
         public string ProcessProperties(string text)
         {
             foreach (var exposedProperty in graph.exposedProperties)
