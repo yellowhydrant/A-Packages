@@ -2,6 +2,9 @@
 
 namespace A.Inventory
 {
+
+    //Valid
+
     [System.Serializable]
     public struct AItemStack
     {
@@ -9,7 +12,7 @@ namespace A.Inventory
         public AItem item 
         { 
             get { return FetchItem(); } 
-            set { itemGuid = item != null ? item.guid : null; _item = value; } 
+            set { itemGuid = item != null ? item.guid : null; _item = value; } //set guide variable and assign item to internal _item
         }
 #if UNITY_EDITOR
         [field: SerializeField]
@@ -20,6 +23,7 @@ namespace A.Inventory
         public int currentAmount; //add set check if below 0 throw error
         public int useCount;
 
+        //Utility values
         public int MaxAmount => item.maxStoredAmount;
         public int Capacity => MaxAmount - currentAmount;
         public bool IsFull => currentAmount == MaxAmount;

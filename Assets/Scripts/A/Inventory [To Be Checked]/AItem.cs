@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using A.UI;
 using UnityEngine;
 
+//Valid
+
 namespace A.Inventory
 {
     //[CreateAssetMenu(menuName = "A/Inventory/Items/ ")]
